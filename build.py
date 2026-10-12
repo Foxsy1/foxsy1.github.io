@@ -10,6 +10,8 @@ import json
 import os
 import re
 import shutil
+import hashlib
+import unicodedata
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -42,6 +44,7 @@ def pages_base_url() -> str:
 
 class GentleFetcher:
     def __init__(self):
+        self.events = []
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": UA, "Accept": "text/html,application/xml;q=0.9,*/*;q=0.7"})
         self.robots: dict[str, RobotFileParser | None] = {}
@@ -67,6 +70,7 @@ class GentleFetcher:
     def get(self, url: str) -> str | None:
         if not self.allowed(url):
             print("Blocked by robots.txt:", url)
+            self.events.append({"url": url, "result": "robots_denied"})
             return None
         p = urlparse(url)
         host = p.netloc
@@ -77,12 +81,14 @@ class GentleFetcher:
         try:
             r = self.session.get(url, timeout=PAGE_TIMEOUT)
             r.raise_for_status()
+            self.events.append({"url": url, "result": "ok"})
             if len(r.content) > 5_000_000:
                 print("Skipping overly large page", url)
                 return None
             return r.text
         except requests.RequestException as e:
             print("Source unavailable:", url, str(e)[:140])
+            self.events.append({"url": url, "result": f"error: {str(e)[:100]}"})
             return None
 
 
@@ -236,6 +242,78 @@ def secondary_index(fetcher: GentleFetcher) -> dict[str, dict]:
     return result
 
 
+def rendered_official_cards(fetcher: GentleFetcher) -> dict[str, dict]:
+    """Optional JS-rendered public listings (no accounts, cookies or stream requests).
+
+    This is best-effort: a browser may still be blocked on CI. Only use it if
+    the official site robots policy allows the relevant URLs.
+    """
+    if os.getenv("ENABLE_BROWSER_DISCOVERY") != "1":
+        return {}
+    if not fetcher.allowed(OFFICIAL + "/") or not fetcher.allowed(OFFICIAL + "/anime_titles"):
+        print("Skipping rendered discovery: robots policy does not permit official page")
+        return {}
+    try:
+        from playwright.sync_api import sync_playwright
+        records = {}
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True, args=["--no-sandbox"])
+            context = browser.new_context(viewport={"width": 1365, "height": 950})
+            page = context.new_page()
+            for url in [OFFICIAL + "/", OFFICIAL + "/anime_titles"]:
+                try:
+                    page.goto(url, wait_until="domcontentloaded", timeout=35000)
+                    page.wait_for_timeout(2200)
+                    # Catch cards that load after scrolling; bounded and polite.
+                    for _ in range(4):
+                        page.mouse.wheel(0, 900)
+                        page.wait_for_timeout(400)
+                    found = official_cards(page.content(), url)
+                    print("Browser-rendered cards", url, len(found))
+                    records.update(found)
+                    fetcher.events.append({"url": url, "result": f"browser: {len(found)} titles"})
+                except Exception as exc:
+                    print("Browser page unavailable", url, repr(exc)[:180])
+                    fetcher.events.append({"url": url, "result": f"browser_error: {str(exc)[:100]}"})
+            browser.close()
+        return records
+    except Exception as exc:
+        print("Browser fallback not available:", repr(exc)[:180])
+        fetcher.events.append({"url": OFFICIAL, "result": f"browser_start_error: {str(exc)[:100]}"})
+        return {}
+
+
+def slug_key(title: str) -> str:
+    """Stable ID for a seed title whose real OceanVeil page ID is not known."""
+    text = unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode("ascii").lower()
+    slug = re.sub(r"[^a-z0-9]+", "-", text).strip("-")[:60]
+    suffix = hashlib.sha256(title.casefold().encode("utf8")).hexdigest()[:8]
+    return f"seed-{slug}-{suffix}"
+
+
+def title_key(title: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode("ascii").lower())
+
+
+def read_seed() -> dict[str, dict]:
+    path = ROOT / "seed.json"
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf8"))
+    result = {}
+    for item in data["titles"]:
+        title = clean_title(item["title"])
+        if not title:
+            continue
+        source_url = SECONDARY if item.get("source") == "index" else OFFICIAL + "/"
+        result[slug_key(title)] = {
+            "title": title, "poster": "", "url": source_url,
+            "source": "starter-snapshot", "first_seen": "2026-10-12",
+            "last_seen": "2026-10-12",
+        }
+    return result
+
+
 def read_old_state() -> dict[str, dict]:
     if not STATE_FILE.exists():
         return {}
@@ -250,7 +328,10 @@ def dump_json(path: Path, obj: dict) -> None:
 
 def build() -> None:
     fetcher = GentleFetcher()
-    old = read_old_state()
+    saved = read_old_state()
+    seed = read_seed()
+    titles = dict(seed)
+    titles.update(saved)
     fresh = secondary_index(fetcher)
 
     seen = {}
@@ -259,12 +340,14 @@ def build() -> None:
         if html:
             seen.update(official_cards(html, page))
     fresh.update({k: v for k, v in seen.items() if k not in fresh})
-    print("Official pages provided", len(seen), "linked titles")
+    if not seen:
+        seen.update(rendered_official_cards(fetcher))
+        fresh.update({k: v for k, v in seen.items() if k not in fresh})
+    print("Official pages provided", len(seen), "linked titles (including rendered fallback)")
 
-    # Sitemaps can discover entries that are absent from the landing page.
     for url in scan_sitemaps(fetcher):
         oid = ocean_id(url)
-        if not oid or oid in fresh or oid in old:
+        if not oid or oid in fresh or oid in titles:
             continue
         html = fetcher.get(url)
         if not html:
@@ -273,22 +356,29 @@ def build() -> None:
         if title:
             fresh[oid] = {"title": title, "poster": poster, "url": f"{OFFICIAL}/anime_titles/{oid}"}
 
-    if not old and not fresh:
-        raise RuntimeError("No public titles could be discovered; no empty addon will be published. Check access/logs.")
-
-    titles = dict(old)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    by_name = {title_key(v["title"]): k for k, v in titles.items()}
+    fresh_usable = {}
     for oid, record in fresh.items():
         if not title_ok(record.get("title")):
             continue
-        previous = titles.get(oid, {})
+        fresh_usable[oid] = record
+        duplicate_key = by_name.get(title_key(record["title"]))
+        previous = titles.get(oid) or (titles.get(duplicate_key, {}) if duplicate_key else {})
+        if duplicate_key and duplicate_key != oid and duplicate_key.startswith("seed-"):
+            del titles[duplicate_key]
         titles[oid] = {
             "title": record["title"],
             "poster": record.get("poster") or previous.get("poster", ""),
             "url": record["url"],
+            "source": "live-discovery",
             "first_seen": previous.get("first_seen", today),
             "last_seen": today,
         }
+        by_name[title_key(record["title"])] = oid
+
+    if not titles:
+        raise RuntimeError("No seed or saved records, and no live titles. Refusing to publish empty data.")
     dump_json(STATE_FILE, {"titles": titles})
 
     if OUT.exists():
@@ -296,13 +386,12 @@ def build() -> None:
     OUT.mkdir(parents=True)
     shutil.copy(ROOT / "static" / "placeholder.png", OUT / "placeholder.png")
     (OUT / ".nojekyll").touch()
-
     base_url = pages_base_url()
     manifest = {
         "id": "community.oceanveil.auto.catalog",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "name": "OceanVeil Auto Catalog",
-        "description": "Automatically refreshed public OceanVeil title directory. Catalog only: no video streams.",
+        "description": "Public OceanVeil title directory: an initial snapshot plus scheduled discovery checks. Metadata only; no video streams.",
         "resources": ["catalog", {"name": "meta", "types": ["series"], "idPrefixes": ["oceanveil:"]}],
         "types": ["series"],
         "catalogs": [{"type": "series", "id": "oceanveil-anime", "name": "OceanVeil Anime", "extra": [{"name": "skip", "isRequired": False}]}],
@@ -312,29 +401,55 @@ def build() -> None:
     dump_json(OUT / "manifest.json", manifest)
 
     listing = []
-    for oid, data in sorted(titles.items(), key=lambda kv: (kv[1]["first_seen"], int(kv[0]) if kv[0].isdigit() else 0), reverse=True):
+    for oid, data in sorted(titles.items(), key=lambda kv: (kv[1].get("last_seen", ""), kv[1].get("first_seen", ""), kv[1]["title"]), reverse=True):
         item_id = f"oceanveil:{oid}"
         poster = data.get("poster") or f"{base_url}/placeholder.png"
         item = {"id": item_id, "type": "series", "name": data["title"], "poster": poster}
         listing.append(item)
-        meta = {**item,
-                "description": "Listed on OceanVeil. This directory does not supply video streams. Open the official site to check subscription and regional availability.",
-                "website": data["url"],
-                "links": [{"name": "Official OceanVeil page", "category": "watch", "url": data["url"]}],
-                "videos": [],
-                }
+        link = data.get("url") or OFFICIAL
+        source_label = "Official OceanVeil title page" if ocean_id(link) else "Public OceanVeil title source"
+        meta = {
+            **item,
+            "description": "Listed in public OceanVeil-related sources. This catalog does not provide playback; regional availability can change.",
+            "website": link,
+            "links": [{"name": source_label, "category": "watch", "url": link}],
+            "videos": [],
+        }
         dump_json(OUT / "meta" / "series" / f"{item_id}.json", {"meta": meta})
-    # Stremio generally requests 100 results at a time and stops at a shorter page.
-    # We generate a terminal empty page for exactly-multiple-of-100 catalogs.
-    page_len = 100
-    for skip in range(0, len(listing) + page_len, page_len):
-        result = {"metas": listing[skip:skip + page_len]}
+    for skip in range(0, len(listing) + 100, 100):
+        result = {"metas": listing[skip:skip + 100]}
         catalog_dir = OUT / "catalog" / "series"
         if skip == 0:
             dump_json(catalog_dir / "oceanveil-anime.json", result)
         dump_json(catalog_dir / "oceanveil-anime" / f"skip={skip}.json", result)
-    dump_json(OUT / "status.json", {"known_title_count": len(listing), "new_discoveries_this_run": len(set(fresh) - set(old)), "updated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "notes": "Metadata-only; title coverage can be partial. Removed titles are not automatically deleted."})
-    print(f"Generated {len(listing)} catalog titles. New this run: {len(set(fresh) - set(old))}. Base URL: {base_url}")
+
+    live_count = sum(r.get("source") == "live-discovery" for r in titles.values())
+    newly_found = sum(oid not in saved for oid in fresh_usable)
+    status = {
+        "known_title_count": len(listing),
+        "starter_snapshot_count": len(seed),
+        "stored_live_title_count": live_count,
+        "live_titles_extracted_this_run": len(fresh_usable),
+        "new_live_title_ids_this_run": newly_found,
+        "updated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source_checks": getattr(fetcher, "events", []),
+        "notes": ("Live sources provided titles this run." if fresh_usable else
+                  "No live titles extracted this run. The seeded/saved list was published, "
+                  "but discovery of future additions is not verified while source access is blocked."),
+    }
+    dump_json(OUT / "status.json", status)
+    page = ("<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' "
+            "content='width=device-width,initial-scale=1'><title>OceanVeil Auto Catalog</title>"
+            "<style>body{font:16px/1.6 system-ui;max-width:720px;margin:10vh auto;padding:20px;"
+            "background:#101823;color:white}a{color:#9dc9ff}code{overflow-wrap:anywhere}</style>"
+            f"<h1>OceanVeil Auto Catalog</h1><p>{len(listing)} catalog titles.</p>"
+            "<p><a href='manifest.json'>Addon manifest</a> · <a href='status.json'>Update status</a></p>"
+            f"<p>Addon URL: <code>{base_url}/manifest.json</code></p>"
+            "<p>Metadata only. Unofficial. Public source access may restrict new-title detection.</p></html>")
+    (OUT / "index.html").write_text(page, encoding="utf8")
+    if not fresh_usable:
+        print("::warning::No live titles extracted. Publishing starter/saved snapshot; discovery of new releases is NOT currently verified.")
+    print(f"Generated {len(listing)} titles; seeded {len(seed)}, saved live {live_count}, fetched this run {len(fresh_usable)}. Base: {base_url}")
 
 
 if __name__ == "__main__":

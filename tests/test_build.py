@@ -1,5 +1,7 @@
 import json
 import tempfile
+import os
+import shutil
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -42,6 +44,34 @@ class Tests(unittest.TestCase):
                     generator.build()
                     data = json.loads((root / 'public' / 'catalog' / 'series' / 'oceanveil-anime.json').read_text())
                     self.assertEqual(len(data['metas']), 3)
+
+
+    def test_initial_publish_with_all_sources_blocked(self):
+        class BlockedFeed:
+            events = [{"url": "https://manhwaindex.com/platform/oceanveil", "result": "error: HTTP 403"}]
+            def get(self, url):
+                return None
+
+        with tempfile.TemporaryDirectory() as dirname:
+            root = Path(dirname)
+            (root / "static").mkdir()
+            (root / "static" / "placeholder.png").write_bytes(b"placeholder")
+            shutil.copy(Path(generator.__file__).with_name("seed.json"), root / "seed.json")
+            env = {"GITHUB_REPOSITORY": "oceanveil-auto-catalog/oceanveil-auto-catalog", "ENABLE_BROWSER_DISCOVERY": "0"}
+            with patch.dict(os.environ, env), patch.object(generator, "ROOT", root), patch.object(generator, "STATE_FILE", root / "state.json"), patch.object(generator, "OUT", root / "public"), patch.object(generator, "GentleFetcher", BlockedFeed):
+                generator.build()
+                status = json.loads((root / "public" / "status.json").read_text())
+                listing = json.loads((root / "public" / "catalog" / "series" / "oceanveil-anime.json").read_text())["metas"]
+                self.assertEqual(status["starter_snapshot_count"], 34)
+                self.assertEqual(status["live_titles_extracted_this_run"], 0)
+                self.assertEqual(status["known_title_count"], 34)
+                self.assertEqual(len(listing), 34)
+                self.assertTrue(all(item["id"].startswith("oceanveil:") for item in listing))
+                self.assertTrue(all(item["poster"].startswith("https://oceanveil-auto-catalog.github.io/oceanveil-auto-catalog/") for item in listing))
+                self.assertTrue((root / "public" / "manifest.json").is_file())
+                self.assertTrue((root / "public" / "index.html").is_file())
+                self.assertTrue((root / "public" / "catalog" / "series" / "oceanveil-anime" / "skip=0.json").is_file())
+                self.assertTrue((root / "state.json").is_file())
 
 
 if __name__ == '__main__':

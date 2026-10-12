@@ -1,53 +1,90 @@
-# OceanVeil Auto Catalog — metadata-only Stremio/Nuvio addon
+# OceanVeil Auto Catalog — V2
 
-**What it does:** checks publicly accessible OceanVeil listings, sitemaps, and a third-party index every day; adds newly detected anime to a Stremio-compatible catalog; and publishes static catalog JSON using GitHub Pages. Once installed, the same addon URL works in Stremio and Nuvio. Updates do **not** require editing MDBList.
+**Unofficial metadata-only addon for Stremio and Nuvio.** This repo publishes a Stremio-compatible static catalog on GitHub Pages. It checks public title sources every day and preserves previously found records. It does **not** supply streams, log into OceanVeil, bypass subscriptions, or access paid content.
 
-**What it does not do:** this is **not** an official OceanVeil integration and it does **not** produce playable video streams, bypass a subscription, or extract protected content. **Completeness is not guaranteed.** The third-party `manhwaindex.com/platform/oceanveil` landing page exposes only a subset of its indexed titles; the OceanVeil site may block scrapers or lack a sitemap. Titles discovered in prior runs are retained if the source fails later. Titles removed from OceanVeil aren't automatically deleted. Adult-rated content may be included because this is an unfiltered directory.
+## Why V2 exists
 
-## Install on GitHub (no always-on server)
+The first version failed on its first GitHub Actions run because `https://manhwaindex.com/platform/oceanveil` returned `403 Forbidden`, the official pages yielded no extractable title links, and there was no saved catalog. That prevented the *build* and therefore the *deploy* step.
 
-1. Sign in at https://github.com and create a **public** repository named `oceanveil-auto-catalog`. GitHub Pages is available for public repositories on a free account, subject to current GitHub limits.
-2. Upload the **contents** of this folder to the root of your repository, including the hidden `.github/workflows/update.yml` file. Uploading a ZIP as one file doesn't work; extract it and upload the files/folders. Use **Add file → Upload files** or GitHub Desktop; create nested directories as needed. Commit on `main`.
-3. Open your repository's **Settings → Pages → Build and deployment → Source → GitHub Actions**. Save the setting. Do **not** choose the branch deploy option; workflow-created commits using `GITHUB_TOKEN` won't trigger that kind of Pages build.
-4. Open **Actions → Update and publish OceanVeil catalog → Run workflow**, choosing `main`. Wait until both **build** and **deploy** show green. This build needs access to public title sources; if both block requests on the GitHub runner, the first build will fail rather than publish an empty catalog.
-5. Open `https://YOUR-USERNAME.github.io/oceanveil-auto-catalog/manifest.json` in a browser (replace `YOUR-USERNAME` with your GitHub username). It should show JSON beginning with the addon `id`. Check `https://YOUR-USERNAME.github.io/oceanveil-auto-catalog/status.json` to see the number of detected titles.
-6. In **Stremio**, open **Addons → Add addon by URL** (wording differs by version), paste your `manifest.json` URL, and install. In **Nuvio**, open **Settings → Content & Discovery → Addons → Add Addon**, paste **the same URL**, and install.
-7. Look for **OceanVeil Anime** in the relevant home/discover catalog. The GitHub workflow runs automatically each day at **03:15 UTC** and republishes the list. You don't need to re-install it for normal title additions. Clients may show cached results briefly.
+V2 fixes the **empty first-run deployment** issue:
 
-## Structure
+- `seed.json` includes **34 titles** appearing in public OceanVeil-related lists as of October 12, 2026. This is a starter snapshot, **not the whole library**. It gives the addon something to publish even if public discovery is temporarily unavailable.
+- The daily job tries the original permitted HTML/sitemap sources. If ordinary HTML doesn't contain title links, it also tries **Chromium rendering** of OceanVeil's public landing/catalog pages (no login and respecting a readable `robots.txt`). The browser does not circumvent access restrictions.
+- `status.json` tells you **how many titles actually came from live discovery**. A green deployment means the catalog published, *not* necessarily that it detected new releases.
+- Stored titles survive unavailable sources on subsequent runs.
 
-- `build.py` — public-page scraper + static addon generator, uses only publicly accessible metadata.
-- `.github/workflows/update.yml` — daily schedule plus a one-click manual run; builds and deploys directly through GitHub Pages Actions.
-- `state.json` — generated/committed by the workflow, storing past discoveries.
-- `public/` — generated Stremio addon files (not committed; deployed as Pages artifact).
-- `static/placeholder.png` — generic poster for listings without artwork.
-- `tests/test_build.py` — offline example tests.
+**Important limitation:** We have not been able to verify the browser-discovery fallback against live OceanVeil from this environment, and the third-party index blocked the GitHub runner in your first run. Thus, *fully automatic addition of every new OceanVeil title is still unproven*. V2 resolves the observed build/deploy failure, not access restrictions imposed by source sites. It will append new titles if it can actually extract new public links.
 
-## Verify / troubleshoot
+## Replace your existing GitHub repository
 
-If the generated catalog appears empty or no new shows are being added, check **Actions → latest run → Update catalog** and the `status.json` URL. The scraper respects any readable `robots.txt` blocks; remove any disallowed source rather than trying to bypass protections. OceanVeil may change its HTML or block GitHub Actions IPs, in which case the parsing rules or permitted source need to be updated.
+Your screenshot indicates:
 
-If you have a GitHub repository with a different name, the deployed URL ends with **that** repository name. If Pages is blocked by organization policy or a private-repo plan, choose a Pages-capable public repository or a different HTTPS host. For an account/organization with a custom GitHub Pages domain, add the repository Actions variable `PAGES_BASE_URL` and pass it in `update.yml` to override poster fallback paths.
+- GitHub repository: `https://github.com/oceanveil-auto-catalog/oceanveil-auto-catalog`
+- Expected Pages site: `https://oceanveil-auto-catalog.github.io/oceanveil-auto-catalog/`
+- Expected Stremio/Nuvio install URL: **`https://oceanveil-auto-catalog.github.io/oceanveil-auto-catalog/manifest.json`**
 
-To run locally (requires Python 3.10+ and internet):
+1. **Extract** the V2 ZIP. Go inside its `oceanveil-auto-catalog` folder.
+2. In your GitHub repository, replace `build.py`, `requirements.txt`, `README.md`, `.github/workflows/update.yml`, and `tests/test_build.py` with the new versions, and **add `seed.json`**. Keep `static/placeholder.png`. You can use GitHub Desktop or upload the whole extracted project contents from your computer. **Do not upload the ZIP file itself.**
+3. Commit all changes to **`main`**. Be sure `.github/workflows/update.yml` is present in the repo as a *nested path*, not renamed to `update.yml` in the root.
+4. In **Settings → Pages**, keep **Source: GitHub Actions** (the screenshot shows this already correctly set).
+5. Go to **Actions → Update and publish OceanVeil catalog → Run workflow**. The script installs Chromium, attempts discovery, and publishes the initial catalog even if the remote sources are blocked.
+6. Wait for **build** and **deploy** to be green. First run may be slower because the browser is installed.
+7. Open `https://oceanveil-auto-catalog.github.io/oceanveil-auto-catalog/status.json`. Check `known_title_count` and especially `live_titles_extracted_this_run` (if **0**, fresh-title discovery still isn't functioning, even if deployment succeeded).
+8. Open `https://oceanveil-auto-catalog.github.io/oceanveil-auto-catalog/manifest.json`. Install this URL using Stremio's addon-by-URL field or Nuvio's Stremio-addon installation entry.
+
+If Pages returns 404 immediately after your first green deployment, wait briefly for propagation, then reload. Verify the workflow's **deploy** job finished successfully.
+
+## Automatic updating
+
+The GitHub Actions job checks daily at **03:15 UTC** and also runs on pushes to `main`. A public title is added when the scraper can discover an OceanVeil `/anime_titles/123` link, and the source provides a usable show name. The state is written to `state.json` and committed to preserve discoveries.
+
+Do not confuse **scheduled checks** with **guaranteed discovery**. If OceanVeil does not expose enough public title data and the third-party index stays blocked, this still behaves as a cached snapshot. There is no verified public comprehensive API for automatic enumeration in this project.
+
+## What URLs should work after successful deployment?
+
+- `/` — small catalog landing page
+- `/manifest.json` — installation manifest
+- `/status.json` — number of entries, live discovery status and per-source checks
+- `/catalog/series/oceanveil-anime.json` — first 100 catalog items
+- `/catalog/series/oceanveil-anime/skip=100.json` — subsequent items if available
+- `/meta/series/oceanveil:seed-....json` — per-title metadata
+
+The catalog uses custom `oceanveil:` IDs. **Other stream addons might not recognize those IDs**, and this project has no video/stream route. The initially seeded titles use a generic placeholder image until a permitted live source supplies artwork; do not expect polished posters for all seeded entries yet.
+
+## Repo structure
+
+```text
+oceanveil-auto-catalog/
+├── .github/
+│   └── workflows/
+│       └── update.yml       # Daily update, browser install and GitHub Pages deploy
+├── build.py                 # Public sources, optional browser extraction and addon generation
+├── seed.json                # Starter snapshot (34 sourced titles)
+├── requirements.txt        # Python dependencies
+├── static/
+│   └── placeholder.png      # Fallback poster
+├── tests/
+│   └── test_build.py        # Offline tests, including simulated 403/blocked sources
+└── README.md
+```
+
+The workflow generates and commits `state.json` when titles are found and creates `public/` as a temporary deploy artifact. You do **not** have to upload either directory manually.
+
+## Run tests locally
 
 ```bash
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
-python build.py
+ENABLE_BROWSER_DISCOVERY=0 python build.py
 python -m http.server --directory public 8000
 ```
 
-Then open `http://localhost:8000/manifest.json` to inspect the generated manifest (the URL installed in actual clients should be the **public HTTPS GitHub Pages URL**, not localhost).
+On Windows PowerShell use `$env:ENABLE_BROWSER_DISCOVERY="0"` before running `python build.py` instead of the inline environment variable above. To test Chromium mode locally, run `python -m playwright install chromium`, set `ENABLE_BROWSER_DISCOVERY=1`, then run `python build.py`.
 
-## Why a static Stremio addon?
+## Data sources and limitations
 
-The Stremio protocol serves `manifest.json`, `catalog/series/oceanveil-anime.json`, and per-title `meta/series/oceanveil:ID.json`. The build script also prepares `catalog/series/oceanveil-anime/skip=100.json`, `skip=200.json`, etc. to support Stremio's default 100-result paging. Nuvio supports the same basic catalog/meta endpoints. The addon deliberately does not implement `stream`.
+- `https://oceanveil.net/` — OceanVeil's public listings and rendered public pages.
+- `https://manhwaindex.com/platform/oceanveil` — third-party availability index; first GitHub Actions run reported **HTTP 403** from this source.
+- Public sitemaps if reachable and if their robots policy permits access.
 
-Official specification: https://stremio.github.io/stremio-addon-sdk/protocol.html
-
-GitHub Pages Actions: https://github.com/actions/deploy-pages
-
-## Data/privacy/rights
-
-The scraper uses only public page titles, outbound links, and poster URLs. It doesn't use your OceanVeil login or cookies, doesn't store passwords or subscriptions, and doesn't download videos. Respect OceanVeil's terms, website robots policy, and applicable copyright requirements. Third-party artwork URLs can change, and some titles may disappear or be renamed. Do not use this directory to claim guaranteed title or playback availability in your region.
+We don't circumvent access controls or make false completeness claims. Starter title names were sourced from the publicly indexed OceanVeil list and the official site's recently-streamed listing. Some titles may be retired, may be unavailable in your region, or may not map to a direct official detail URL. All third-party source pages retain their own rights to artwork and metadata.
