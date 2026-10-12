@@ -62,8 +62,10 @@ class Tests(unittest.TestCase):
                 generator.build()
                 pub = root / 'public'
                 manifest = json.loads((pub / 'manifest.json').read_text())
-                self.assertEqual(manifest['catalogs'][0]['name'], 'OceanVeil Anime')
-                self.assertEqual(manifest['catalogs'][0]['extra'], [])
+                self.assertEqual(manifest['catalogs'][0]['name'], 'OceanVeil • Simulcast')
+                self.assertEqual(len([c for c in manifest['catalogs'] if c['type']=='series']), 8)
+                self.assertTrue((pub/'catalog/series/oceanveil-mix-all.json').exists())
+                self.assertEqual(manifest['catalogs'][0]['extra'][0]['name'], 'skip')
                 series = json.loads((pub/'catalog/series/oceanveil-anime.json').read_text())['metas']
                 movies = json.loads((pub/'catalog/movie/oceanveil-movies.json').read_text())['metas']
                 self.assertEqual(len(series), 1)
@@ -108,7 +110,7 @@ class Tests(unittest.TestCase):
                 self.assertTrue(all(x['id'].startswith(('tmdb:', 'tt')) for x in json.loads((pub/'catalog/series/oceanveil-anime.json').read_text())['metas']))
                 self.assertTrue((pub/'catalog/series/oceanveil-anime/skip=0.json').exists())
                 self.assertEqual(status['addon_manifest_url'], 'https://oceanveil-auto-catalog.github.io/manifest.json')
-                self.assertEqual(manifest['version'], '1.5.0')
+                self.assertEqual(manifest['version'], '1.6.0')
 
     def test_catalog_id_and_artwork_gate(self):
         self.assertTrue(generator.playable_id('tmdb:123'))

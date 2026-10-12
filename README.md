@@ -1,62 +1,100 @@
-# OceanVeil Catalog V5 — accurate cards and playback-compatible IDs
+# OceanVeil Auto Catalog V6 — Live discovery + eight Nuvio catalogs
 
-**This is a corrective release, not a claim that OceanVeil discovery is solved.** V1–V3 produced broken or placeholder posters and many nonstandard `oceanveil:` IDs that normal stream addons do not understand. V4 introduced optional TMDB/TVDB/MDBList enrichment but still allowed unusable fallback cards. V5 enforces quality gates and exports source diagnostics.
+This is a replacement for your V5 GitHub Pages repository. The previous scraper saw HTTP 200 responses but extracted **zero** live titles; it mostly expected `<a href="/anime_titles/123">` anchors, which JavaScript-driven listings need not use. V6 replaces that assumption. **The new extraction methods pass local/mock tests, but only the next GitHub Actions run can confirm they work against the live OceanVeil deployment.** A scheduled green build is not evidence of successful discovery.
 
-## What changes
+## What V6 changes
 
-- **Only publish a title** when it resolves to a standard `tmdb:123` or `tt1234567` ID **and** has a TMDB or Kitsu poster. Unmatched, incorrectly mapped, and posterless titles are not pushed to the main home catalog. The status JSON reports everything excluded, so no titles silently disappear.
-- **Stop using OceanVeil-hosted poster links and generic placeholders.** They often break in Nuvio; use metadata-provider artwork instead. A valid-looking image CDN URL might still 404, but no source-site poster is deliberately reused.
-- **Adult anime can be searched on TMDB** (`include_adult=true`, relevant to OceanVeil). Prefixes like `[Dub]` and `(Sub)` are removed *for matching only*; visible titles retain their original names.
-- **Avoid ambiguous matching** when multiple media entries score too similarly, including two identically named adaptations.
-- **Use standard Stremio catalog format** (`series` + `movie`, `/catalog/.../xxx.json` and `/skip=0.json`) and the same canonical `tmdb:` ID pattern as NuvEng. Metadata and video streams still come from your **installed Nuvio/Stremio addons**.
-- **Source diagnostics:** `source-debug.json` records public page size, headings, sample image alt text, and whether `/anime_titles/123` links appear in the HTML and browser-rendered DOM. It **does not** publish cookie, authentication, or API key information.
-- **Daily scheduled rebuild at 03:15 UTC** (08:15 Pakistan), plus manual and push triggers, remains enabled.
+- Collects title records from public HTML linked cards, **linkless image cards**, embedded JSON/hydration (`__NEXT_DATA__` and JSON-LD), and **public JSON responses loaded by Chromium**. This is fundamentally different from simply scanning numbered URLs.
+- Preserves OceanVeil source tags when available: `SimCast`, `[Dub]`, ratings such as `PG`, `13+`, and `18+`. Doesn't classify an entire page NSFW just because the site's marketing calls it an adult streaming platform.
+- Keeps saved title records and enriched IDs between daily runs. Uses TMDB/IMDb IDs with external posters; unmatched records are reported, not silently published as unplayable `oceanveil:` items.
+- Includes **eight series lists**, plus an additional Movies list for the Stremio movie type. (Stremio distinguishes `series` from `movie`; publishing movie metadata under `series` just to keep a count of eight would be incorrect.)
+- Adds a **catalog selector** at `catalog-preview.html`, category counts in `status.json` and discovery method counts + public endpoint paths in `source-debug.json`.
+- Leaves normal playback resolution to your existing stream addons, using recognizable IDs. Does **not** disable playback. `streams.json` still supports direct, explicitly provided authorized HTTPS stream links, but the ZIP does not contain OceanVeil subscription streams.
 
-## Install / replace your repository
+## The eight catalog rows
 
-1. Download the V5 ZIP, extract it, and upload the **contents** of the folder to your existing [GitHub repository](https://github.com/oceanveil-auto-catalog/oceanveil-auto-catalog.github.io), replacing files at the root. Include the hidden `.github/workflows/update.yml` path. **Do not delete `state.json`** if already present; it preserves old matches between runs.
-2. Configure GitHub repository **Settings → Pages → Source: GitHub Actions**.
-3. Add **Settings → Secrets and variables → Actions → New repository secret**:
-   - `TMDB_API_KEY` — your TMDB API key **or long read token** (`eyJ...`). **Strongly recommended** for usable catalog cards.
-   - `MDBLIST_API_KEY` — your MDBList API key (optional for ratings).
-   - `TVDB_API_KEY` / `TVDB_PIN` — optional, **not necessary**.
-4. Run **Actions → Update and publish OceanVeil catalog → Run workflow** and ensure both build and deploy succeed.
-5. Remove your **old OceanVeil addon** from Nuvio/Stremio, then install `https://oceanveil-auto-catalog.github.io/manifest.json` and enable its **OceanVeil Anime** row in the applicable Nuvio profile. Reopen/refresh Nuvio.
+| Order | Series catalog | Rule |
+|---|---|---|
+| 1 | Simulcast | Explicit `SimCast`/simulcast source flag |
+| 2 | Dubbed | `[Dub]` or explicit English-dub source flag |
+| 3 | NSFW | Explicit 18+ / R18 / adult classification in a **title's own source data** |
+| 4 | SFW | Verified PG / 12+ / 13+ source classification, excluding 18+ |
+| 5 | Mix | Alternating SFW and NSFW selection, without duplicates |
+| 6 | Top | Available titles sorted by metadata rating; unscored titles last |
+| 7 | Mix of All | Every matched series, including uncertain age ratings, deduplicated |
+| 8 | NSFW Dubbed | Verified NSFW **and** dubbed, not merely one or the other |
 
-### Check these URLs after deployment
+**16+ isn't proof of explicit content or safe-for-all-ages.** V6 leaves titles classified *only* 16+ in Mix of All/Top until a more reliable classification is available. Consequently some sections may be empty until source metadata is found. Historical starter titles without source labels also default to Top + Mix of All, not fabricated categories.
 
-- Manifest: https://oceanveil-auto-catalog.github.io/manifest.json — should contain `"version": "1.5.0"`.
-- Catalog: https://oceanveil-auto-catalog.github.io/catalog/series/oceanveil-anime.json — `"metas"` entries, every `id` must be `tmdb:` or `tt...`, with external artwork.
-- Browser preview: https://oceanveil-auto-catalog.github.io/catalog-preview.html — preview before Nuvio.
-- Status: https://oceanveil-auto-catalog.github.io/status.json — key fields are `known_title_count`, `raw_known_title_count`, `excluded_title_count`, `live_titles_extracted_this_run`, `metadata_apis_configured`, `identifier_counts`, `published_historical_snapshot_count`.
-- Source diagnostics: https://oceanveil-auto-catalog.github.io/source-debug.json — shows *why* OceanVeil page parsing is failing/succeeding.
+An optional **OceanVeil Movies** row appears separately because movie and series have different Stremio types.
 
-### If the catalog is empty
+## Install — complete replacement
 
-This is **not automatically a Nuvio bug**. V5 deliberately rejects invalid IDs/artwork. If TMDB/Kitsu cannot resolve the historical starter titles, it can publish an empty catalog rather than making up posters or IDs. Check `status.json` for `excluded_titles` and `metadata_apis_configured`. You need correct secrets, a successful enrichment run, and actual discoverable titles. Existing `state.json` may contain old V2 `oceanveil:` records; V5 will try to enrich them rather than blindly displaying them.
+1. Extract ZIP. Upload **all files inside** the folder into the root of [your repository](https://github.com/oceanveil-auto-catalog/oceanveil-auto-catalog.github.io), replacing previous files. Upload the hidden `.github/workflows/update.yml` path as well.
+2. **Preserve `state.json`** already in the repository; it caches title matches and improves update reliability. The ZIP does not contain a `state.json`.
+3. Retain repository Actions secrets:
+   - `TMDB_API_KEY`: your TMDB long `eyJ...` read token works.
+   - `MDBLIST_API_KEY`: optional MDBList ratings enrichment.
+   - `TVDB_API_KEY` and `TVDB_PIN`: entirely optional.
+4. Keep **Settings → Pages → Source: GitHub Actions**.
+5. **Actions → Update and publish OceanVeil catalog → Run workflow**. Wait for build and deploy to finish.
+6. Remove the previous OceanVeil addon from the selected Nuvio/Stremio profile, then install:
 
-### What about playback?
+   **`https://oceanveil-auto-catalog.github.io/manifest.json`**
 
-V5 **does not disable** Stremio/Nuvio playback. Standard TMDB/IMDb IDs let your existing **installed** stream addons handle episodes and movies, assuming they can identify that media and have a source. **A matched ID is not a guarantee of playable video.** OceanVeil's membership videos require their own session/player. A static GitHub Pages catalog cannot fetch protected, authenticated, or expiring video links on-demand. No one can truthfully claim this ZIP already supplies direct OceanVeil streams without a verified, authorized integration. `streams.json` remains available for explicitly supplied, playable HTTPS media URLs or external watch links; do not commit private tokens or signed URLs.
+7. Check whether the eight rows are enabled on your Nuvio Home/Discovery screen. Catalogs with zero entries may not display on a particular Nuvio layout.
 
-### Does it auto-update OceanVeil?
+## Verification — do this before judging success
 
-The updater *runs daily*, but **live discovery is not yet verified**. Earlier logs showed zero titles extracted even when source pages returned HTTP 200, and the secondary index returned HTTP 403. This release adds `source-debug.json`, so you can inspect HTML structure from the GitHub runner and we can implement a real parser rather than inventing another fake fallback. Successful build/deploy **does not** prove live catalog updates.
+- **Manifest:** https://oceanveil-auto-catalog.github.io/manifest.json — version `1.6.0`, eight series catalog objects, one optional Movies catalog.
+- **Visual preview:** https://oceanveil-auto-catalog.github.io/catalog-preview.html — choose each catalog, see exactly what Nuvio should load.
+- **All series:** https://oceanveil-auto-catalog.github.io/catalog/series/oceanveil-mix-all.json
+- **Status:** https://oceanveil-auto-catalog.github.io/status.json
+- **Source diagnostics:** https://oceanveil-auto-catalog.github.io/source-debug.json
 
-## Structure
+In `status.json`, these values matter:
+
+```json
+{
+  "build_version": "1.6.0",
+  "live_titles_extracted_this_run": 0,
+  "discovery_methods": {
+    "third_party": 0,
+    "official_http": 0,
+    "official_browser": 0,
+    "official_sitemap": 0
+  },
+  "catalog_counts": {
+    "oceanveil-simulcast": 0,
+    "oceanveil-mix-all": 0
+  }
+}
+```
+
+**Those zeros are an explanatory example, not an expected result.** If every discovery count remains zero, the site still isn't exposing usable public data to the GitHub runner. Do **not** call it fixed simply because the action succeeded; send `source-debug.json` **and** the `Update catalog` job log so the underlying page structure can be handled specifically. If `official_browser` or `official_http` is greater than zero and the new titles survive ID matching, live updates are working.
+
+## Auto-update and quota management
+
+The existing GitHub workflow remains scheduled **daily at 03:15 UTC** (08:15 PKT). Pushes and manual triggers also rebuild. `state.json` caches discovery and metadata; metadata enrichment is rate-limited by `ENRICH_MAX_NEW` and `ENRICH_MAX_CALLS` in the workflow. If hundreds of titles are found at once, the first run may discover many but publish only those already matched/enriched; further daily runs should fill in the rest. Increase these limits cautiously, within your TMDB/MDBList API quotas.
+
+No GitHub Pages backend runs continuously and no OceanVeil membership credentials are required or stored.
+
+## Repository layout
 
 ```
-.github/workflows/update.yml  # Tests, daily build, state commit, Pages publish
-build.py                      # Public source discovery, quality gates, manifests
-enrichment.py               # Kitsu → Fribb → TMDB, TVDB/MDBList (optional)
-seed.json                     # Historical source candidates, not real-time availability
-streams.json                  # Optional manually verified links; empty initially
-static/placeholder.png        # Legacy asset; not used for catalog posters
-tests/test_build.py           # Offline source/API/format checks
+.github/workflows/update.yml  # Schedule, tests, build, persist state, Pages deploy
+build.py                      # State updates, eight catalogs, canonical IDs, manifests
+discovery.py                  # DOM + embedded JSON + browser-network discovery
+enrichment.py                # Kitsu/Fribb/TMDB/TVDB/MDBList enrichment
+seed.json                     # Historical starter titles, not current catalog proof
+streams.json                  # Optional supplied authorized streams (empty by default)
+static/placeholder.png        # Legacy asset; never used as published poster
 requirements.txt
+tests/test_build.py
+tests/test_discovery.py
 ```
 
-## Offline testing
+## Offline tests
 
 ```bash
 python -m pip install -r requirements.txt
@@ -65,4 +103,4 @@ ENABLE_BROWSER_DISCOVERY=0 python build.py
 python -m http.server --directory public 8000
 ```
 
-The offline tests mock source and metadata servers. They verify code paths, **not** actual live OceanVeil or Nuvio availability.
+The tests simulate official HTML, browser JSON and metadata API responses. They do not make live OceanVeil requests in this offline environment. A successful test **doesn't prove** GitHub runners can access the same resources as your normal browser.

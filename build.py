@@ -22,7 +22,8 @@ from xml.etree import ElementTree
 
 import requests
 from bs4 import BeautifulSoup
-from enrichment import Enricher, preview_metadata
+from enrichment import Enricher, preview_metadata, lookup_title
+from discovery import from_html, render_official, merge_record, record_key, tags_for
 
 ROOT = Path(__file__).resolve().parent
 STATE_FILE = ROOT / "state.json"
@@ -32,7 +33,7 @@ SECONDARY = "https://manhwaindex.com/platform/oceanveil"
 UA = "OceanVeilCatalogBot/1.0 (personal metadata catalog; public pages only)"
 PAGE_TIMEOUT = 20
 RATE_DELAY = 1.0  # Limit requests to each source
-MAX_SITEMAP_LINKS = 180  # Keep first run modest
+MAX_SITEMAP_LINKS = 110  # Keep first run modest
 URL_PATTERN = re.compile(r"^/anime_titles/(\d+)(?:/)?$")
 
 
@@ -215,6 +216,9 @@ def scan_sitemaps(fetcher: GentleFetcher) -> list[str]:
         try:
             root = ElementTree.fromstring(xml)
         except ElementTree.ParseError:
+            # On some runs an HTTP-200 sitemap is actually the site's SPA shell.
+            # Diagnose it rather than silently considering it a valid sitemap.
+            fetcher.events.append({'url':url,'result':'not_xml_sitemap'})
             continue
         for loc in root.findall(".//{*}loc"):
             if not loc.text:
@@ -352,6 +356,7 @@ def read_seed() -> dict[str, dict]:
             "title": title, "poster": "", "url": source_url,
             "source": "starter-snapshot", "first_seen": "2026-10-12",
             "last_seen": "2026-10-12",
+            **tags_for(title),
         }
     return result
 
@@ -375,18 +380,41 @@ def build() -> None:
     titles = dict(seed)
     titles.update(saved)
     fresh = secondary_index(fetcher)
-
-    seen = {}
-    for page in [OFFICIAL + "/", OFFICIAL + "/anime_titles"]:
-        html = fetcher.get(page)
+    candidate_methods = {'third_party': len(fresh), 'official_http': 0, 'official_browser': 0, 'official_sitemap': 0}
+    # Parse public DOM/title images and structured hydration data, not only links.
+    official_seen = {}
+    for url in [OFFICIAL + '/', OFFICIAL + '/anime_titles']:
+        html = fetcher.get(url)
         if html:
-            seen.update(official_cards(html, page))
-    fresh.update({k: v for k, v in seen.items() if k not in fresh})
-    if not seen:
-        seen.update(rendered_official_cards(fetcher))
-        fresh.update({k: v for k, v in seen.items() if k not in fresh})
-    print("Official pages provided", len(seen), "linked titles (including rendered fallback)")
-
+            for record in from_html(html, url).values():
+                merge_record(official_seen, record)
+            # Preserve useful anchors recognized by the old parser.
+            for key, row in official_cards(html, url).items():
+                rec = {'key': key, **row, **tags_for(row.get('title'))}
+                merge_record(official_seen, rec)
+    candidate_methods['official_http'] = len(official_seen)
+    # Always use Chromium for independent public JSON/network observation.
+    # Waiting for HTTP extraction to be empty was a V5 bug: HTTP may return
+    # an incomplete homepage while richer listing data loads in browser.
+    if os.getenv('ENABLE_BROWSER_DISCOVERY') == '1':
+        try:
+            browser_seen = render_official(fetcher)
+        except Exception as e:
+            browser_seen = {}
+            fetcher.events.append({'url':OFFICIAL,'result':f'browser_discovery_failed: {str(e)[:120]}'})
+        candidate_methods['official_browser'] = len(browser_seen)
+        for record in browser_seen.values():
+            merge_record(official_seen,record)
+    for key, row in official_seen.items():
+        previous = fresh.get(key)
+        if previous:
+            fresh[key] = {**previous, **row, 'dubbed': bool(previous.get('dubbed') or row.get('dubbed')),
+                          'simulcast':bool(previous.get('simulcast') or row.get('simulcast')),
+                          'nsfw':bool(previous.get('nsfw') or row.get('nsfw')),
+                          'sfw':bool(previous.get('sfw') or row.get('sfw'))}
+        else:
+            fresh[key] = row
+    print('Official source records found:', len(official_seen), 'http:', candidate_methods['official_http'], 'browser:', candidate_methods['official_browser'])
     for url in scan_sitemaps(fetcher):
         oid = ocean_id(url)
         if not oid or oid in fresh or oid in titles:
@@ -394,31 +422,48 @@ def build() -> None:
         html = fetcher.get(url)
         if not html:
             continue
+        # Detail page og:title may be generic; avoid bogus "OceanVeil" entries.
         title, poster = details_from_official(html, url)
-        if title:
-            fresh[oid] = {"title": title, "poster": poster, "url": f"{OFFICIAL}/anime_titles/{oid}"}
+        embedded = from_html(html, url)
+        matching = next((r for r in embedded.values() if r.get('key') == oid), None)
+        if matching:
+            fresh[oid] = matching
+            candidate_methods['official_sitemap'] += 1
+        elif title:
+            fresh[oid] = {'title': title, 'poster': poster, 'url': url, **tags_for(title)}
+            candidate_methods['official_sitemap'] += 1
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    by_name = {title_key(v["title"]): k for k, v in titles.items()}
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    # [Dub] and non-dub variants are the same underlying show; retain flags.
+    canonical_key = lambda name: title_key(re.sub(r'^\s*\[Dub\]\s*', '', name or '', flags=re.I))
+    by_name = {canonical_key(v['title']): k for k, v in titles.items()}
     fresh_usable = {}
     for oid, record in fresh.items():
-        if not title_ok(record.get("title")):
+        if not title_ok(record.get('title')):
             continue
         fresh_usable[oid] = record
-        duplicate_key = by_name.get(title_key(record["title"]))
+        duplicate_key = by_name.get(canonical_key(record['title']))
         previous = titles.get(oid) or (titles.get(duplicate_key, {}) if duplicate_key else {})
-        if duplicate_key and duplicate_key != oid and duplicate_key.startswith("seed-"):
+        if duplicate_key and duplicate_key != oid and duplicate_key.startswith('seed-'):
             del titles[duplicate_key]
+        attrs = {}
+        for flag in ('dubbed','simulcast','nsfw','sfw'):
+            attrs[flag] = bool(record.get(flag) or previous.get(flag))
+        if attrs['nsfw']:
+            attrs['sfw'] = False
         titles[oid] = {
-            "title": record["title"],
-            "poster": record.get("poster") or previous.get("poster", ""),
-            "url": record["url"],
-            "source": "live-discovery",
-            "first_seen": previous.get("first_seen", today),
-            "last_seen": today,
+            'title': record['title'],
+            'poster': record.get('poster') or previous.get('poster', ''),
+            'url': record.get('url') or previous.get('url') or OFFICIAL + '/anime_titles',
+            'source': 'live-discovery',
+            'discovery_origin': record.get('origin') or 'public-sitemap',
+            'age_rating': record.get('age_rating') or previous.get('age_rating') or '',
+            'first_seen': previous.get('first_seen', today),
+            'last_seen': today,
+            **attrs,
+            **({'enrichment':previous['enrichment']} if previous.get('enrichment') else {}),
         }
-        by_name[title_key(record["title"])] = oid
-
+        by_name[canonical_key(record['title'])] = oid
     if not titles:
         raise RuntimeError("No seed or saved records, and no live titles. Refusing to publish empty data.")
     # Enrich without requiring API keys. Never replace canonical matches with
@@ -484,75 +529,113 @@ def build() -> None:
                            for vid in safe_streams})
         resources.append({"name": "stream", "types": ["series", "movie"], "idPrefixes": prefixes})
 
+    CATALOGS = [
+        ('oceanveil-simulcast', 'OceanVeil • Simulcast'),
+        ('oceanveil-dubbed', 'OceanVeil • Dubbed'),
+        ('oceanveil-nsfw', 'OceanVeil • NSFW'),
+        ('oceanveil-sfw', 'OceanVeil • SFW'),
+        ('oceanveil-mix', 'OceanVeil • Mix (SFW + NSFW)'),
+        ('oceanveil-top', 'OceanVeil • Top'),
+        ('oceanveil-mix-all', 'OceanVeil • Mix of All'),
+        ('oceanveil-nsfw-dubbed', 'OceanVeil • NSFW Dubbed'),
+    ]
     manifest = {
-        "id": "community.oceanveil.auto.catalog",
-        "version": "1.5.0",
-        "name": "OceanVeil Anime",
-        "description": "OceanVeil anime catalog using TMDB/IMDb IDs and reliable artwork. Playback is supplied by installed stream addons, not OceanVeil subscription video extraction.",
-        "resources": resources,
-        "types": ['series', 'movie'],
-        "catalogs": [
-            {"type": "series", "id": "oceanveil-anime", "name": "OceanVeil Anime", "extra": []},
-            {"type": "movie", "id": "oceanveil-movies", "name": "OceanVeil Movies", "extra": []},
-        ],
-        "behaviorHints": {"configurable": False},
+        'id': 'community.oceanveil.auto.catalog',
+        'version': '1.6.0',
+        'name': 'OceanVeil Auto Catalog',
+        'description': 'Eight OceanVeil catalogs using public source labels, verified media identifiers and TMDB/MDBList artwork. Compatible installed stream addons can resolve matched titles.',
+        'resources': resources,
+        'types': ['series','movie'],
+        'catalogs': [{'type':'series','id':catid,'name':name,'extra':[{'name':'skip','isRequired':False}]} for catid,name in CATALOGS] +
+                    [{'type':'movie','id':'oceanveil-movies','name':'OceanVeil • Movies','extra':[{'name':'skip','isRequired':False}]}],
+        'behaviorHints': {'configurable':False},
     }
-    dump_json(OUT / "manifest.json", manifest)
-
+    dump_json(OUT / 'manifest.json', manifest)
     grouped = {'series': [], 'movie': []}
-    identifiers = set()
-    match_counts = {'tmdb': 0, 'imdb': 0, 'kitsu': 0, 'oceanveil': 0}
-    enrich_counts = {'tmdb_metadata': 0, 'tvdb_metadata': 0, 'mdb_ratings': 0}
+    aggregated = {}
+    match_counts = {'tmdb':0, 'imdb':0, 'kitsu':0, 'oceanveil':0}
+    enrich_counts = {'tmdb_metadata':0,'tvdb_metadata':0,'mdb_ratings':0}
     exclusions = []
     snapshot_published = 0
     official_published = 0
-    for oid, data in sorted(titles.items(), key=lambda kv: (kv[1].get('last_seen', ''), kv[1].get('first_seen', ''), kv[1]['title']), reverse=True):
+    for oid, data in sorted(titles.items(), key=lambda kv: (kv[1].get('last_seen',''), kv[1].get('first_seen',''), kv[1]['title']), reverse=True):
         e = data.get('enrichment') or {}
         item_id = e.get('id') or ''
-        # NO fabricated placeholder or OceanVeil image that breaks on TV/mobile.
         art = e.get('poster') or e.get('kitsu_poster') or ''
         art = art if image_is_trusted(art) else ''
         reasons = []
-        if not playable_id(item_id):
-            reasons.append('unmatched_tmdb_imdb_id')
-        if not art:
-            reasons.append('missing_trusted_poster')
+        if not playable_id(item_id): reasons.append('unmatched_tmdb_imdb_id')
+        if not art: reasons.append('missing_trusted_poster')
         if reasons:
-            exclusions.append({'title': data['title'], 'source': data.get('source', 'unknown'),
-                               'reason': ', '.join(reasons)})
+            exclusions.append({'title':data['title'],'source':data.get('source','unknown'),'reason':', '.join(reasons)})
             continue
-        # One canonical show per catalog entry; dubs/variants can reference same ID.
-        if item_id in identifiers:
+        if item_id in aggregated:
+            prior = aggregated[item_id]
+            for flag in ('dubbed','simulcast','nsfw','sfw'):
+                prior['flags'][flag] = bool(prior['flags'][flag] or data.get(flag))
+            prior['flags']['sfw'] = bool(prior['flags']['sfw'] and not prior['flags']['nsfw'])
+            if data.get('source') == 'live-discovery':
+                prior['verified_live'] = True
             continue
-        identifiers.add(item_id)
         typ = 'movie' if e.get('tmdb_type') == 'movie' and item_id.startswith('tmdb:') else 'series'
         match_counts['tmdb' if item_id.startswith('tmdb:') else 'imdb'] += 1
         enrich_counts['tmdb_metadata'] += int(bool(e.get('description') and e.get('tmdb_id')))
         enrich_counts['tvdb_metadata'] += int(bool(e.get('tvdb_id')))
         enrich_counts['mdb_ratings'] += int(bool(e.get('ratings')))
-        preview = {'id': item_id, 'type': typ, **preview_metadata(data['title'], e, art)}
+        preview = {'id':item_id, 'type':typ, **preview_metadata(lookup_title(data['title']),e,art)}
         preview['poster'] = art
-        # Never advertise old snapshot as live availability.
-        if data.get('source') == 'starter-snapshot':
-            snapshot_published += 1
-        else:
-            official_published += 1
-        grouped[typ].append(preview)
-
-    # Also produce the exact /skip=0.json route expected by some clients.
-    for typ, catid in [('series', 'oceanveil-anime'), ('movie', 'oceanveil-movies')]:
-        rows = grouped[typ]
-        for skip in range(0, len(rows) + 100, 100):
-            output = {'metas': rows[skip:skip + 100]}
+        rating_raw = ((e.get('ratings') or {}).get('myanimelist') or (e.get('ratings') or {}).get('imdb') or e.get('tmdb_rating') or 0)
+        try: score = float(rating_raw)
+        except (ValueError, TypeError): score = 0
+        aggregated[item_id] = {'meta':preview,'type':typ,'rating':score,
+            'flags':{flag:bool(data.get(flag)) for flag in ('dubbed','simulcast','nsfw','sfw')},
+            'verified_live':data.get('source')=='live-discovery'}
+    records = list(aggregated.values())
+    for rec in records:
+        if rec['verified_live']: official_published += 1
+        else: snapshot_published += 1
+        grouped[rec['type']].append(rec['meta'])
+    series = [r for r in records if r['type']=='series']
+    def date_order(r):
+        return r['meta'].get('releaseInfo',''), r['meta']['name'].casefold()
+    # Prefer most recently discovered/produced, but never invent age/dub/simulcast labels.
+    ordinary = sorted(series,key=date_order,reverse=True)
+    sfw = [r for r in ordinary if r['flags']['sfw'] and not r['flags']['nsfw']]
+    nsfw = [r for r in ordinary if r['flags']['nsfw']]
+    mixed = []
+    for idx in range(max(len(sfw),len(nsfw))):
+        if idx < len(sfw): mixed.append(sfw[idx])
+        if idx < len(nsfw): mixed.append(nsfw[idx])
+    selected = {
+        'oceanveil-simulcast': [r for r in ordinary if r['flags']['simulcast']],
+        'oceanveil-dubbed': [r for r in ordinary if r['flags']['dubbed']],
+        'oceanveil-nsfw':nsfw,
+        'oceanveil-sfw':sfw,
+        'oceanveil-mix':mixed,
+        'oceanveil-top':sorted(series,key=lambda r:(r['rating'],r['meta']['name'].casefold()), reverse=True),
+        'oceanveil-mix-all':ordinary,
+        'oceanveil-nsfw-dubbed':[r for r in nsfw if r['flags']['dubbed']],
+    }
+    catalog_counts = {}
+    for catid,_name in CATALOGS:
+        metas = [r['meta'] for r in selected[catid]]
+        catalog_counts[catid] = len(metas)
+        for skip in range(0,len(metas)+101,100):
+            payload = {'metas':metas[skip:skip+100]}
             if skip == 0:
-                dump_json(OUT / 'catalog' / typ / f'{catid}.json', output)
-            dump_json(OUT / 'catalog' / typ / catid / f'skip={skip}.json', output)
-    # Static playback endpoints for explicitly configured public or authorized URLs.
+                dump_json(OUT/'catalog'/'series'/f'{catid}.json', payload)
+            dump_json(OUT/'catalog'/'series'/catid/f'skip={skip}.json',payload)
+    # Legacy endpoint allows users to test their previously installed catalog link.
+    for typ, catid in [('series','oceanveil-anime'),('movie','oceanveil-movies')]:
+        metas = grouped[typ]
+        for skip in range(0,len(metas)+101,100):
+            payload = {'metas':metas[skip:skip+100]}
+            if skip == 0: dump_json(OUT/'catalog'/typ/f'{catid}.json',payload)
+            dump_json(OUT/'catalog'/typ/catid/f'skip={skip}.json',payload)
     for video_id, streams in safe_streams.items():
         kind = 'movie' if video_id.startswith('movie:') else 'series'
-        # user may prefix movie: for route classification; strip prefix if present.
         normalized_id = video_id.removeprefix('movie:')
-        dump_json(OUT / 'stream' / kind / f'{normalized_id}.json', {'streams': streams})
+        dump_json(OUT/'stream'/kind/f'{normalized_id}.json',{'streams':streams})
     listing = grouped['series'] + grouped['movie']
     if not listing:
         print("::warning::The published catalog is EMPTY after identity/artwork validation. Check TMDB_API_KEY, enrichment and status.json exclusions.")
@@ -573,9 +656,13 @@ def build() -> None:
         "live_titles_extracted_this_run": len(fresh_usable),
         "new_live_title_ids_this_run": newly_found,
         "updated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source_checks": getattr(fetcher, "events", []),
+        "source_checks": getattr(fetcher, "events", [])[:150],
+        "discovery_methods": candidate_methods,
+        "discovered_title_examples": [v['title'] for v in list(fresh_usable.values())[:20]],
+        "catalog_counts": catalog_counts,
+        "unclassified_series_count": sum(not (r['flags']['sfw'] or r['flags']['nsfw']) for r in series),
         "addon_manifest_url": f"{base_url}/manifest.json",
-        "catalog_url": f"{base_url}/catalog/series/oceanveil-anime.json",
+        "catalog_url": f"{base_url}/catalog/series/oceanveil-mix-all.json",
         "build_version": manifest["version"],
         "identifier_counts": match_counts,
         "enrichment_counts": enrich_counts,
@@ -589,7 +676,9 @@ def build() -> None:
     dump_json(OUT / "status.json", status)
     dump_json(OUT / "source-debug.json", {"public_dom_probes": getattr(fetcher, "probes", []),
                                           "source_checks": getattr(fetcher, "events", [])[:30],
-                                          "note": "No authentication headers or secrets; inspect titles/anchors to improve source selectors."})
+                                          "browser_public_json_endpoints": getattr(fetcher,'browser_endpoint_hits',{}),
+                                          "candidate_counts": candidate_methods,
+                                          "note": "Only public page diagnostics; no cookies/auth headers or video traffic."})
     # The homepage includes direct test links, so a user can isolate publishing
     # faults before troubleshooting the Nuvio application or profile settings.
     page = ("<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' "
@@ -597,9 +686,9 @@ def build() -> None:
             "<style>body{font:16px/1.6 system-ui;max-width:740px;margin:8vh auto;padding:20px;"
             "background:#101823;color:white}a{color:#9dc9ff}code{overflow-wrap:anywhere}"
             "li{padding:4px 0}</style>"
-            f"<h1>OceanVeil Auto Catalog</h1><p>{len(listing)} metadata-matched titles with external artwork.</p>"
+            f"<h1>OceanVeil Auto Catalog</h1><p>{len(listing)} metadata-matched titles in eight anime lists, plus movies.</p>"
             "<ul><li><a href='manifest.json'>Addon manifest</a></li>"
-            "<li><a href='catalog/series/oceanveil-anime.json'>Raw catalog JSON</a></li>"
+            "<li><a href='catalog/series/oceanveil-mix-all.json'>Mix of All JSON</a></li>"
             "<li><a href='catalog-preview.html'>Visual catalog preview</a></li>"
             "<li><a href='status.json'>Update status</a></li><li><a href='source-debug.json'>Source diagnostics</a></li></ul>"
             f"<p>Install URL: <code>{base_url}/manifest.json</code></p>"
@@ -611,34 +700,44 @@ def build() -> None:
     (OUT / "index.html").write_text(page, encoding="utf8")
     preview = r"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OceanVeil – catalog debug preview</title><style>
+<title>OceanVeil – Catalog Preview</title><style>
 *{box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#0b1523;color:#eef6ff;margin:0;padding:28px}
-h1{margin:0 0 8px}a{color:#88cdff}p{color:#aec0d1}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:20px}
-article{background:#16263b;border-radius:12px;padding:10px;min-height:265px}img{width:100%;aspect-ratio:2/3;object-fit:cover;background:#24354b;border-radius:7px}b{display:block;margin-top:8px;font-size:14px;line-height:1.35}
-#status{padding:12px;background:#172c46;border-radius:10px;margin:22px 0}
-</style></head><body><h1>OceanVeil – catalog preview</h1>
-<p>This page reads the same movie/series catalog JSON Nuvio should request. It does not test Nuvio installation or playback.</p>
-<p><a href="manifest.json">Manifest</a> · <a href="catalog/series/oceanveil-anime.json">Raw catalog</a> · <a href="status.json">Discovery status</a></p>
-<div id="status" role="status">Loading catalog…</div><div id="cards" class="grid"></div>
+header{max-width:1000px;margin:auto}h1{margin:0 0 8px}a{color:#88cdff}p{color:#aec0d1}
+main{max-width:1000px;margin:20px auto}select{background:#24354b;border:1px solid #47607a;border-radius:9px;padding:13px;color:#fff;min-width:250px;max-width:100%;font:inherit;margin:10px 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px}
+article{background:#16263b;border-radius:12px;padding:10px}img{width:100%;aspect-ratio:2/3;object-fit:cover;background:#24354b;border-radius:7px}
+b{display:block;margin-top:8px;font-size:14px;line-height:1.3}
+#status{padding:12px;background:#172c46;border-radius:10px;margin:12px 0 24px}
+</style></head><body><header><h1>OceanVeil — Catalog Preview</h1>
+<p>Preview the actual published catalog JSON. A successful preview doesn't prove Nuvio installation or playback.</p>
+<p><a href="manifest.json">Addon manifest</a> · <a href="status.json">Discovery status</a> · <a href="source-debug.json">Source diagnostics</a></p></header>
+<main><label for="cat">Choose a catalog</label><div><select id="cat">
+<option value="oceanveil-simulcast">Simulcast</option><option value="oceanveil-dubbed">Dubbed</option>
+<option value="oceanveil-nsfw">NSFW</option><option value="oceanveil-sfw">SFW</option>
+<option value="oceanveil-mix">Mix (SFW + NSFW)</option><option value="oceanveil-top">Top</option>
+<option value="oceanveil-mix-all" selected>Mix of All</option><option value="oceanveil-nsfw-dubbed">NSFW Dubbed</option>
+<option value="oceanveil-movies">Movies (separate Stremio media type)</option></select></div>
+<div id="status" role="status">Loading…</div><div id="cards" class="grid"></div></main>
 <script>
-(async()=>{
- const status=document.getElementById('status');
- try {
-  const response=await fetch('./catalog/series/oceanveil-anime.json',{cache:'no-store'});
-  if(!response.ok) throw Error('Catalog request returned HTTP '+response.status);
-  const value=await response.json();
-  const moviesResponse = await fetch('./catalog/movie/oceanveil-movies.json',{cache:'no-store'});
-  if(moviesResponse.ok) { const movieData=await moviesResponse.json(); if(Array.isArray(movieData.metas)) value.metas.push(...movieData.metas); }
-  if(!Array.isArray(value.metas))throw Error('Response has no metas array');
-  status.textContent='Catalog endpoint OK: '+value.metas.length+' titles. If Nuvio remains empty, check the addon installation, selected profile, and Home Catalog settings.';
-  for(const entry of value.metas){
-   const card=document.createElement('article');
-   const img=document.createElement('img');img.src=entry.poster||'';img.alt='Poster for '+entry.name;img.loading='lazy';
-   const name=document.createElement('b');name.textContent=entry.name||'(untitled)';
-   card.append(img,name);document.getElementById('cards').append(card);
+const choice=document.getElementById('cat');
+async function render(){
+ const cards=document.getElementById('cards'),status=document.getElementById('status');
+ cards.textContent='';status.textContent='Loading…';
+ const cat=choice.value,type=cat==='oceanveil-movies'?'movie':'series';
+ try{
+  const response=await fetch('./catalog/'+type+'/'+cat+'.json',{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const body=await response.json();
+  if(!Array.isArray(body.metas))throw Error('missing metas array');
+  status.textContent=body.metas.length+' titles loaded. Empty sections mean matching or source classification has not found eligible entries yet.';
+  for(const entry of body.metas){
+   const card=document.createElement('article'),img=document.createElement('img'),name=document.createElement('b');
+   img.loading='lazy';img.src=entry.poster||'';img.alt='Poster for '+(entry.name||'');
+   name.textContent=entry.name||'(untitled)';card.append(img,name);cards.append(card);
   }
- } catch (e){status.textContent='Catalog endpoint failed: '+e.message;}
-})();
+ }catch(e){status.textContent='Catalog failed: '+e.message}
+}
+choice.addEventListener('change',render);render();
 </script></body></html>"""
     (OUT / "catalog-preview.html").write_text(preview, encoding="utf8")
     if not fresh_usable:
