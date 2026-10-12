@@ -1,5 +1,1581 @@
 {
   "titles": {
+    "3116": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Ichiro Inuyashiki",
+      "url": "https://oceanveil.net/anime_titles/3116"
+    },
+    "3117": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Hiro Shishigami",
+      "url": "https://oceanveil.net/anime_titles/3117"
+    },
+    "3151": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Naoyuki Ando",
+      "url": "https://oceanveil.net/anime_titles/3151"
+    },
+    "3152": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Samejima",
+      "url": "https://oceanveil.net/anime_titles/3152"
+    },
+    "3165": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Attack on Evil Deity",
+      "url": "https://oceanveil.net/anime_titles/3165"
+    },
+    "3166": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Celaeno Library War",
+      "url": "https://oceanveil.net/anime_titles/3166"
+    },
+    "3167": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Super Deity Apocalypse",
+      "url": "https://oceanveil.net/anime_titles/3167"
+    },
+    "3168": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Talent at Love",
+      "url": "https://oceanveil.net/anime_titles/3168"
+    },
+    "3169": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Say It Isn't So, Kuuko",
+      "url": "https://oceanveil.net/anime_titles/3169"
+    },
+    "3170": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "I'll Try to Act it Out",
+      "url": "https://oceanveil.net/anime_titles/3170"
+    },
+    "3174": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Earth Is a Twin-Tail World",
+      "url": "https://oceanveil.net/anime_titles/3174"
+    },
+    "3175": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "A Twin-Tail Mystery?!",
+      "url": "https://oceanveil.net/anime_titles/3175"
+    },
+    "3176": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "The Azure Surge! TailBlue",
+      "url": "https://oceanveil.net/anime_titles/3176"
+    },
+    "3180": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Zashikiwarashi 1",
+      "url": "https://oceanveil.net/anime_titles/3180"
+    },
+    "3181": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Zashikiwarashi 2",
+      "url": "https://oceanveil.net/anime_titles/3181"
+    },
+    "3182": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Umibozu 1",
+      "url": "https://oceanveil.net/anime_titles/3182"
+    },
+    "3183": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Umibozu 2",
+      "url": "https://oceanveil.net/anime_titles/3183"
+    },
+    "3184": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Umibozu 3",
+      "url": "https://oceanveil.net/anime_titles/3184"
+    },
+    "3185": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Nopperabo 1",
+      "url": "https://oceanveil.net/anime_titles/3185"
+    },
+    "3197": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "You're myself, I'm yourself",
+      "url": "https://oceanveil.net/anime_titles/3197"
+    },
+    "3198": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "The Contractor's key",
+      "url": "https://oceanveil.net/anime_titles/3198"
+    },
+    "3199": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "We are friends, aren't we?",
+      "url": "https://oceanveil.net/anime_titles/3199"
+    },
+    "3200": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "confidence": 1.0,
+        "description": "The lush green hills are enveloped by the echoes of a beach that should not exist. The bold exchange between the two worlds attempts to overwhelm the viewer.",
+        "genres": [
+          "Drama"
+        ],
+        "id": "tmdb:1484495",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/xHXCXbfzruPGcG2TnlDQkAd9L8h.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2024",
+        "tmdb_id": "1484495",
+        "tmdb_rating": 5.0,
+        "tmdb_type": "movie",
+        "tvdb_id": ""
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Somewhere not here",
+      "url": "https://oceanveil.net/anime_titles/3200"
+    },
+    "3201": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Would you love me?",
+      "url": "https://oceanveil.net/anime_titles/3201"
+    },
+    "3202": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "I'll beat you, and beat you good",
+      "url": "https://oceanveil.net/anime_titles/3202"
+    },
+    "3203": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Suspicious Tropical Paradise",
+      "url": "https://oceanveil.net/anime_titles/3203"
+    },
+    "3204": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "We've lost something important again",
+      "url": "https://oceanveil.net/anime_titles/3204"
+    },
+    "3205": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Yuko Shishigami",
+      "url": "https://oceanveil.net/anime_titles/3205"
+    },
+    "3206": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "People of 2 chan",
+      "url": "https://oceanveil.net/anime_titles/3206"
+    },
+    "3211": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Ferocity—Twin Battle!",
+      "url": "https://oceanveil.net/anime_titles/3211"
+    },
+    "3212": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "The Third Twin-Tail!",
+      "url": "https://oceanveil.net/anime_titles/3212"
+    },
+    "3218": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "The Strange Mouse Cursor",
+      "url": "https://oceanveil.net/anime_titles/3218"
+    },
+    "3220": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Ring",
+      "url": "https://oceanveil.net/anime_titles/3220"
+    },
+    "3222": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "episode.1",
+      "url": "https://oceanveil.net/anime_titles/3222"
+    },
+    "3236": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "\"Even High School Boys Have Their Holes…\" \"Ume Takes Responsibility\"",
+      "url": "https://oceanveil.net/anime_titles/3236"
+    },
+    "3249": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Hello, Daisy",
+      "url": "https://oceanveil.net/anime_titles/3249"
+    },
+    "3270": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Error: Insufficient Click Point",
+      "url": "https://oceanveil.net/anime_titles/3270"
+    },
+    "3272": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Snow Woman",
+      "url": "https://oceanveil.net/anime_titles/3272"
+    },
+    "3274": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "episode.2",
+      "url": "https://oceanveil.net/anime_titles/3274"
+    },
+    "3275": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "No one sees the real me",
+      "url": "https://oceanveil.net/anime_titles/3275"
+    },
+    "3276": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Real Me Doesn't Exist",
+      "url": "https://oceanveil.net/anime_titles/3276"
+    },
+    "3277": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "confidence": 1.0,
+        "kitsu_id": "45816",
+        "kitsu_poster": "https://media.kitsu.app/anime/45816/poster_image/large-d4f53879e1c3e384934d8f9937878a2b.jpeg",
+        "method": "kitsu-fribb",
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Catch Me If You Can",
+      "url": "https://oceanveil.net/anime_titles/3277"
+    },
+    "3278": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "It's Not Empty At All",
+      "url": "https://oceanveil.net/anime_titles/3278"
+    },
+    "3286": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "\"Savior Tan\" \"The Seven Mysteries of the Academy and the Council's Night Patrol\" \"Komaro is Here!\"",
+      "url": "https://oceanveil.net/anime_titles/3286"
+    },
+    "3287": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "refresh_after": "2026-10-13"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "The Players",
+      "url": "https://oceanveil.net/anime_titles/3287"
+    },
+    "520": {
+      "age_rating": "PG",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/nzhMMfyGBfuAo4GWKfn8SckGGbQ.jpg",
+        "confidence": 1.0,
+        "description": "Aliens replace middle-aged Inuyashiki's body with a combat robot. He uses it to fight high schooler Shishigami, who's using the same power selfishly.",
+        "genres": [
+          "Animation",
+          "Drama",
+          "Sci-Fi & Fantasy",
+          "Action & Adventure"
+        ],
+        "id": "tmdb:73946",
+        "imdb_id": "tt6340502",
+        "kitsu_id": "13096",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/13096/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/VKhdHvqY3vMeBcZ6UOJanUmeYs.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2017",
+        "tmdb_id": "73946",
+        "tmdb_rating": 8.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "321209"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Inuyashiki",
+      "url": "https://oceanveil.net/anime_titles/520"
+    },
+    "528": {
+      "age_rating": "PG",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/87bpdbzhwrR3HmPVyVNeMlRVDn0.jpg",
+        "confidence": 0.971,
+        "description": "Mahiro Yasaka is just an ordinary high school student, until one day he is suddenly attacked by a dangerous monster. Just when everything seems to be lost, he is saved by a strange girl named Nyaruko, who claims to be the shape-shifting deity Nyarlathotep from horror author H. P. Lovecraft's Cthulhu Mythos.",
+        "genres": [
+          "Animation",
+          "Comedy",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:45254",
+        "imdb_id": "tt2564106",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/37tfOPuIout9BJbyuJfGIjy6n0n.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2012",
+        "tmdb_id": "45254",
+        "tmdb_rating": 7.3,
+        "tmdb_type": "tv",
+        "tvdb_id": "257521"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Nyarko-san Another Crawling Chaos W",
+      "url": "https://oceanveil.net/anime_titles/528"
+    },
+    "529": {
+      "age_rating": "PG",
+      "discovery_origin": "public-json",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/bemtxp3x5P02sw5wmQiYUG6judV.jpg",
+        "confidence": 1.0,
+        "description": "Souji Mitsuka is a first-year high school student who is obsessed with twin-tails. One day, a beautiful girl from a parallel world named Twoearle,  suddenly appeared in front of him and gave him the power to transform into the twin-tailed warrior Tail Red. With the Ultimegil organization attacking the planet, Souji now must fight in order to protect the peace on Earth.",
+        "genres": [
+          "Animation",
+          "Action & Adventure",
+          "Comedy",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:61474",
+        "imdb_id": "tt3985216",
+        "kitsu_id": "8710",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/8710/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/6ahyvuyYG3t92rAmol9RaBrAnlf.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2014",
+        "tmdb_id": "61474",
+        "tmdb_rating": 7.912,
+        "tmdb_type": "tv",
+        "tvdb_id": "283924"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub] Gonna be the Twin-Tail!!",
+      "url": "https://oceanveil.net/anime_titles/529"
+    },
+    "531": {
+      "age_rating": "PG",
+      "discovery_origin": "public-json",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/1K0xW8RtPzACZ2Tu42H9R3OlGEw.jpg",
+        "confidence": 1.0,
+        "description": "The Medicine Seller is a deadly and mysterious master of the occult who travels across feudal Japan in search of malevolent spirits called mononoke to slay. When he locates one of these spirits, he cannot simply kill it; he must first learn its Form, its Truth, and its Reason in order to wield the mighty Exorcism Sword and fight against it. He must begin his strange exorcisms with intense psychological analysis and careful investigative work—an extremely dangerous step, as he must first confront and learn about the mononoke before he even has the means to defeat it.",
+        "genres": [
+          "Animation",
+          "Mystery",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:16660",
+        "imdb_id": "tt1992935",
+        "kitsu_id": "2035",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/2035/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/r3S04UDFVaDRC6fOSjLfvrDhpvd.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2007",
+        "tmdb_id": "16660",
+        "tmdb_rating": 8.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "80470"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub] Mononoke",
+      "url": "https://oceanveil.net/anime_titles/531"
+    },
+    "532": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/aPQ1ul1PLbYsC0VjcIOaofH7AZ2.jpg",
+        "confidence": 0.978,
+        "description": "When Yu Narukami moves to the rural country town of Inaba to live with his uncle while his parents are away on business, he's expecting a lot more peace and quiet than he's been used to in the big city. Instead, the peace has been shattered as a rash of mysterious murders and kidnappings sweep the countryside. With the police stymied, Yu finds himself joining with a group of seven other teenagers in a desperate bid to solve the mystery. A mystery that is somehow connected to both the local weather patterns and a strange TV world which Yu, his friends and the enigmatic killer can all enter.",
+        "genres": [
+          "Animation",
+          "Sci-Fi & Fantasy",
+          "Action & Adventure",
+          "Mystery",
+          "Crime"
+        ],
+        "id": "tmdb:46388",
+        "imdb_id": "tt2387612",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/pNqWrcUbJgBqiefyTGxRl0NQ9NK.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2011",
+        "tmdb_id": "46388",
+        "tmdb_rating": 7.5,
+        "tmdb_type": "tv",
+        "tvdb_id": "252232"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Persona4 the ANIMATION",
+      "url": "https://oceanveil.net/anime_titles/532"
+    },
+    "534": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/2YCsvsdWbbT9HT2EK4024JRSF5f.jpg",
+        "confidence": 1.0,
+        "description": "One day during class, Takumi— an otaku — notices his mouse cursor has sprung out of the screen.\n\nPanicked, he asks his childhood friend Mone, sitting next to him, to take a look, only to be brushed off...\n\nOnce Takumi realizes he could actually control it himself, he uses the mouse cursor— visible only to him— to slip it in between Mone's clothes and starts clicking away...\n\nHere's Japan’s (probably) first new genre of romcom, \"Clicking Away at a Gyaru Who's Mean to Otakus with a Mouse Cursor\"!",
+        "genres": [
+          "Animation"
+        ],
+        "id": "tmdb:334779",
+        "kitsu_id": "51002",
+        "kitsu_poster": "https://media.kitsu.app/anime/51002/poster_image/large-df51472f8ddcb0040964d8f5a2d109b6.jpeg",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/y3gE67auOFwfS4zLTFKu4VZvb1a.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334779",
+        "tmdb_rating": 9.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "473125"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub]Now That I Can Control Reality With A Mouse Cursor, I'm Gonna Click Away On The Girls!",
+      "url": "https://oceanveil.net/anime_titles/534"
+    },
+    "536": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/fo8rXXfSluWR6vHTslFiT10uSp3.jpg",
+        "confidence": 1.0,
+        "description": "Satoru Takahashi, a young man who inherits his late father's apartment complex in a modern world where humans and yokai (supernatural creatures) coexist.",
+        "genres": [
+          "Animation",
+          "Comedy"
+        ],
+        "id": "tmdb:334504",
+        "imdb_id": "tt45831796",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/831mR49mAXJ3vy3wIMoclyPk8yo.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334504",
+        "tmdb_rating": 0.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "478562"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub]The Lonely Snow Widow and the Cursed Ring",
+      "url": "https://oceanveil.net/anime_titles/536"
+    },
+    "538": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/7CSqPaizCugNAznzmUUVQKbj6KO.jpg",
+        "confidence": 1.0,
+        "description": "For the first time in my life, I have a girlfriend. But her friend tempts me with a body that's so seductive... What would you do if your girlfriend's friend came on to you like this?",
+        "genres": [
+          "Animation",
+          "Drama"
+        ],
+        "id": "tmdb:336654",
+        "imdb_id": "tt43650454",
+        "kitsu_id": "50752",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50752/poster_image/73f0d499dd508338b8474461a090999a.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173328Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=0cf84938de55ca968f780040afa5994d3975d1df63153d9945bff8a326e6ee3a",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/3DN0UnAUrLaY382mFdbv1wrVQNC.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "336654",
+        "tmdb_rating": 6.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "477658"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "My Girlfriend's Friend",
+      "url": "https://oceanveil.net/anime_titles/538"
+    },
+    "542": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/kuYMjcQ6BeLTBYUR1l1T8W8ZMcf.jpg",
+        "confidence": 1.0,
+        "description": "In a student council filled with weirdos, one new member is about to have a hell of a school year! Mizunoe Ume just wanted to avoid repeating a grade when he joined the student council. After all, it seemed like an easy fix to his current academic problems. But then, he met his fellow council members. Each of them is eccentric in their own way—one's an airhead, another's scary, one's secretly a pervert, but all in all, they're just really weird! Yet somehow, they're also oddly cute and endearing. Which means Mizunoe is stuck with them and all the chaos they bring to the table. Get ready for a slice-of-life story that's irresistibly charming, quirky, and a little bit naughty!",
+        "genres": [
+          "Animation",
+          "Comedy"
+        ],
+        "id": "tmdb:283938",
+        "imdb_id": "tt43650242",
+        "kitsu_id": "49877",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/49877/poster_image/4850b0a42082f0554af1dd38bf4e7bfe.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173329Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=bab4f76c70a974ceb02573bbe253e293f408475a75e0b7a3b9ea79fe495950a5",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/lpjQKu1KfceCLeO8ga71gwJMieg.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "283938",
+        "tmdb_rating": 7.7,
+        "tmdb_type": "tv",
+        "tvdb_id": "463051"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Even the Student Council Has Its Holes!",
+      "url": "https://oceanveil.net/anime_titles/542"
+    },
+    "544": {
+      "age_rating": "",
+      "discovery_origin": "public-json",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/a5ibYt8Ri2w74TR99lbP2aHyFMY.jpg",
+        "confidence": 1.0,
+        "description": "Once again, sixteen Magical Girls have been assembled for a high-stakes challenge. Every three days, their Magical Phone pulls them into an RPG-like simulation where they have to work together to fight enemies, solve puzzles, and earn Magical Candy to advance. A staggering ten billion yen reward awaits them at the end—but only for the players who land the finishing blow. With such a tantalizing prize on the line, it's only a matter of time before the girls turn on each other—and if their hit points drop to zero, a game over will be the least of their worries...",
+        "genres": [
+          "Animation",
+          "Drama"
+        ],
+        "id": "tmdb:337277",
+        "imdb_id": "tt39240299",
+        "kitsu_id": "50338",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50338/poster_image/487a04862ba11ee73f7445a3c8d60ac2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173327Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=84f662050c26de905c4b660b34bea69aa52062e01196eb0b436f4171662d266a",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/s7WJ5gQSLwk5vVxwhzJDx94mMf6.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "337277",
+        "tmdb_rating": 0.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "457780"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "MAGICAL GIRL RAISING PROJECT restart",
+      "url": "https://oceanveil.net/anime_titles/544"
+    },
+    "discovered-0c484e2723eaf3": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/BL_PC.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "BL Pick Up",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-0dee0af861e383": {
+      "age_rating": "13+",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/kuYMjcQ6BeLTBYUR1l1T8W8ZMcf.jpg",
+        "confidence": 1.0,
+        "description": "In a student council filled with weirdos, one new member is about to have a hell of a school year! Mizunoe Ume just wanted to avoid repeating a grade when he joined the student council. After all, it seemed like an easy fix to his current academic problems. But then, he met his fellow council members. Each of them is eccentric in their own way—one's an airhead, another's scary, one's secretly a pervert, but all in all, they're just really weird! Yet somehow, they're also oddly cute and endearing. Which means Mizunoe is stuck with them and all the chaos they bring to the table. Get ready for a slice-of-life story that's irresistibly charming, quirky, and a little bit naughty!",
+        "genres": [
+          "Animation",
+          "Comedy"
+        ],
+        "id": "tmdb:283938",
+        "imdb_id": "tt43650242",
+        "kitsu_id": "49877",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/49877/poster_image/4850b0a42082f0554af1dd38bf4e7bfe.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173329Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=bab4f76c70a974ceb02573bbe253e293f408475a75e0b7a3b9ea79fe495950a5",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/lpjQKu1KfceCLeO8ga71gwJMieg.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "283938",
+        "tmdb_rating": 7.7,
+        "tmdb_type": "tv",
+        "tvdb_id": "463051"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/lp/生穴るlp_PC_horizontal.jpg.webp",
+      "sfw": true,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "Even the Student Council Has Its Holes!",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-14d5f3b9fbf615": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/lp_romance.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Romance Collection",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-183ab3310fa14a": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/miburo_1_PC.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Blue Miburo 1 Digest",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-6c73e9dea514af": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/nukitashi_PC.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Nukitashi Special",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-7577ea3f89df93": {
+      "age_rating": "16+",
+      "discovery_origin": "public-dom-img",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/fo8rXXfSluWR6vHTslFiT10uSp3.jpg",
+        "confidence": 1.0,
+        "description": "Satoru Takahashi, a young man who inherits his late father's apartment complex in a modern world where humans and yokai (supernatural creatures) coexist.",
+        "genres": [
+          "Animation",
+          "Comedy"
+        ],
+        "id": "tmdb:334504",
+        "imdb_id": "tt45831796",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/831mR49mAXJ3vy3wIMoclyPk8yo.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334504",
+        "tmdb_rating": 0.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "478562"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000536/000000536_vertical_with_logo.jpg_small.webp",
+      "sfw": false,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "[Dub]The Lonely Snow Widow and the Cursed Ring",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-7ff6a680894d6c": {
+      "age_rating": "13+",
+      "discovery_origin": "public-dom-img",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/a5ibYt8Ri2w74TR99lbP2aHyFMY.jpg",
+        "confidence": 1.0,
+        "description": "Once again, sixteen Magical Girls have been assembled for a high-stakes challenge. Every three days, their Magical Phone pulls them into an RPG-like simulation where they have to work together to fight enemies, solve puzzles, and earn Magical Candy to advance. A staggering ten billion yen reward awaits them at the end—but only for the players who land the finishing blow. With such a tantalizing prize on the line, it's only a matter of time before the girls turn on each other—and if their hit points drop to zero, a game over will be the least of their worries...",
+        "genres": [
+          "Animation",
+          "Drama"
+        ],
+        "id": "tmdb:337277",
+        "imdb_id": "tt39240299",
+        "kitsu_id": "50338",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50338/poster_image/487a04862ba11ee73f7445a3c8d60ac2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173327Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=84f662050c26de905c4b660b34bea69aa52062e01196eb0b436f4171662d266a",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/s7WJ5gQSLwk5vVxwhzJDx94mMf6.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "337277",
+        "tmdb_rating": 0.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "457780"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000544/000000544_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "MAGICAL GIRL RAISING PROJECT restart",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-81e9444afc4204": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/2026WinterSimulcast.jpg",
+      "sfw": false,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "2026 Winter Simulcast",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-858b979a32aaa8": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/lp-pick-up-saioshi_PC.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Saioshi Special",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-ba564d71c76795": {
+      "age_rating": "13+",
+      "discovery_origin": "public-dom-img",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/aPQ1ul1PLbYsC0VjcIOaofH7AZ2.jpg",
+        "confidence": 0.978,
+        "description": "When Yu Narukami moves to the rural country town of Inaba to live with his uncle while his parents are away on business, he's expecting a lot more peace and quiet than he's been used to in the big city. Instead, the peace has been shattered as a rash of mysterious murders and kidnappings sweep the countryside. With the police stymied, Yu finds himself joining with a group of seven other teenagers in a desperate bid to solve the mystery. A mystery that is somehow connected to both the local weather patterns and a strange TV world which Yu, his friends and the enigmatic killer can all enter.",
+        "genres": [
+          "Animation",
+          "Sci-Fi & Fantasy",
+          "Action & Adventure",
+          "Mystery",
+          "Crime"
+        ],
+        "id": "tmdb:46388",
+        "imdb_id": "tt2387612",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/pNqWrcUbJgBqiefyTGxRl0NQ9NK.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2011",
+        "tmdb_id": "46388",
+        "tmdb_rating": 7.5,
+        "tmdb_type": "tv",
+        "tvdb_id": "252232"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000532/000000532_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Persona4 the ANIMATION",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-ca903369294183": {
+      "age_rating": "PG",
+      "discovery_origin": "public-dom-img",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/nzhMMfyGBfuAo4GWKfn8SckGGbQ.jpg",
+        "confidence": 1.0,
+        "description": "Aliens replace middle-aged Inuyashiki's body with a combat robot. He uses it to fight high schooler Shishigami, who's using the same power selfishly.",
+        "genres": [
+          "Animation",
+          "Drama",
+          "Sci-Fi & Fantasy",
+          "Action & Adventure"
+        ],
+        "id": "tmdb:73946",
+        "imdb_id": "tt6340502",
+        "kitsu_id": "13096",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/13096/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/VKhdHvqY3vMeBcZ6UOJanUmeYs.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2017",
+        "tmdb_id": "73946",
+        "tmdb_rating": 8.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "321209"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000520/000000520_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Inuyashiki",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-cebc38b4fcf95b": {
+      "age_rating": "PG",
+      "discovery_origin": "public-dom-img",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/87bpdbzhwrR3HmPVyVNeMlRVDn0.jpg",
+        "confidence": 0.971,
+        "description": "Mahiro Yasaka is just an ordinary high school student, until one day he is suddenly attacked by a dangerous monster. Just when everything seems to be lost, he is saved by a strange girl named Nyaruko, who claims to be the shape-shifting deity Nyarlathotep from horror author H. P. Lovecraft's Cthulhu Mythos.",
+        "genres": [
+          "Animation",
+          "Comedy",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:45254",
+        "imdb_id": "tt2564106",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/37tfOPuIout9BJbyuJfGIjy6n0n.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2012",
+        "tmdb_id": "45254",
+        "tmdb_rating": 7.3,
+        "tmdb_type": "tv",
+        "tvdb_id": "257521"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000528/000000528_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Nyarko-san Another Crawling Chaos W",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-d89a782082de31": {
+      "age_rating": "PG",
+      "discovery_origin": "public-dom-img",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/1K0xW8RtPzACZ2Tu42H9R3OlGEw.jpg",
+        "confidence": 1.0,
+        "description": "The Medicine Seller is a deadly and mysterious master of the occult who travels across feudal Japan in search of malevolent spirits called mononoke to slay. When he locates one of these spirits, he cannot simply kill it; he must first learn its Form, its Truth, and its Reason in order to wield the mighty Exorcism Sword and fight against it. He must begin his strange exorcisms with intense psychological analysis and careful investigative work—an extremely dangerous step, as he must first confront and learn about the mononoke before he even has the means to defeat it.",
+        "genres": [
+          "Animation",
+          "Mystery",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:16660",
+        "imdb_id": "tt1992935",
+        "kitsu_id": "2035",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/2035/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/r3S04UDFVaDRC6fOSjLfvrDhpvd.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2007",
+        "tmdb_id": "16660",
+        "tmdb_rating": 8.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "80470"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000531/000000531_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub] Mononoke",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-e1300696c85df2": {
+      "age_rating": "16+",
+      "discovery_origin": "public-dom-img",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/2YCsvsdWbbT9HT2EK4024JRSF5f.jpg",
+        "confidence": 1.0,
+        "description": "One day during class, Takumi— an otaku — notices his mouse cursor has sprung out of the screen.\n\nPanicked, he asks his childhood friend Mone, sitting next to him, to take a look, only to be brushed off...\n\nOnce Takumi realizes he could actually control it himself, he uses the mouse cursor— visible only to him— to slip it in between Mone's clothes and starts clicking away...\n\nHere's Japan’s (probably) first new genre of romcom, \"Clicking Away at a Gyaru Who's Mean to Otakus with a Mouse Cursor\"!",
+        "genres": [
+          "Animation"
+        ],
+        "id": "tmdb:334779",
+        "kitsu_id": "51002",
+        "kitsu_poster": "https://media.kitsu.app/anime/51002/poster_image/large-df51472f8ddcb0040964d8f5a2d109b6.jpeg",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/y3gE67auOFwfS4zLTFKu4VZvb1a.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334779",
+        "tmdb_rating": 9.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "473125"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000534/000000534_vertical_with_logo.jpg_small.webp",
+      "sfw": false,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "[Dub]Now That I Can Control Reality With A Mouse Cursor, I'm Gonna Click Away On The Girls!",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-e16f6eaecadd30": {
+      "age_rating": "16+",
+      "discovery_origin": "public-dom-img",
+      "dubbed": false,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/7CSqPaizCugNAznzmUUVQKbj6KO.jpg",
+        "confidence": 1.0,
+        "description": "For the first time in my life, I have a girlfriend. But her friend tempts me with a body that's so seductive... What would you do if your girlfriend's friend came on to you like this?",
+        "genres": [
+          "Animation",
+          "Drama"
+        ],
+        "id": "tmdb:336654",
+        "imdb_id": "tt43650454",
+        "kitsu_id": "50752",
+        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50752/poster_image/73f0d499dd508338b8474461a090999a.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173328Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=0cf84938de55ca968f780040afa5994d3975d1df63153d9945bff8a326e6ee3a",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/3DN0UnAUrLaY382mFdbv1wrVQNC.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "336654",
+        "tmdb_rating": 6.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "477658"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000538/000000538_vertical_with_logo.jpg_small.webp",
+      "sfw": false,
+      "simulcast": true,
+      "source": "live-discovery",
+      "title": "My Girlfriend's Friend",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-ed6c3a25bf5cf2": {
+      "age_rating": "",
+      "discovery_origin": "public-dom",
+      "dubbed": false,
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/image_link/PC/lp_dream.jpg",
+      "sfw": false,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "Dream Collection",
+      "url": "https://oceanveil.net/"
+    },
+    "discovered-f2ff8190b7582d": {
+      "age_rating": "PG",
+      "discovery_origin": "public-dom-img",
+      "dubbed": true,
+      "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/bemtxp3x5P02sw5wmQiYUG6judV.jpg",
+        "confidence": 1.0,
+        "description": "Souji Mitsuka is a first-year high school student who is obsessed with twin-tails. One day, a beautiful girl from a parallel world named Twoearle,  suddenly appeared in front of him and gave him the power to transform into the twin-tailed warrior Tail Red. With the Ultimegil organization attacking the planet, Souji now must fight in order to protect the peace on Earth.",
+        "genres": [
+          "Animation",
+          "Action & Adventure",
+          "Comedy",
+          "Sci-Fi & Fantasy"
+        ],
+        "id": "tmdb:61474",
+        "imdb_id": "tt3985216",
+        "kitsu_id": "8710",
+        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/8710/large.jpg",
+        "method": "kitsu-fribb",
+        "poster": "https://image.tmdb.org/t/p/w500/6ahyvuyYG3t92rAmol9RaBrAnlf.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2014",
+        "tmdb_id": "61474",
+        "tmdb_rating": 7.912,
+        "tmdb_type": "tv",
+        "tvdb_id": "283924"
+      },
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "nsfw": false,
+      "poster": "https://image.oceanveil.net/public/anime_titles/000/000000/000000529/000000529_vertical_with_logo.jpg_small.webp",
+      "sfw": true,
+      "simulcast": false,
+      "source": "live-discovery",
+      "title": "[Dub] Gonna be the Twin-Tail!!",
+      "url": "https://oceanveil.net/"
+    },
     "seed-angel-beats-1c5403fa": {
       "enrichment": {
         "background": "https://image.tmdb.org/t/p/original/4zeG5WpY0vp62OyRZMOoPouGuME.jpg",
@@ -187,35 +1763,6 @@
       "title": "Eromanga Sensei",
       "url": "https://manhwaindex.com/platform/oceanveil"
     },
-    "seed-even-the-student-council-has-its-holes-0dee0af8": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/kuYMjcQ6BeLTBYUR1l1T8W8ZMcf.jpg",
-        "confidence": 1.0,
-        "description": "In a student council filled with weirdos, one new member is about to have a hell of a school year! Mizunoe Ume just wanted to avoid repeating a grade when he joined the student council. After all, it seemed like an easy fix to his current academic problems. But then, he met his fellow council members. Each of them is eccentric in their own way—one's an airhead, another's scary, one's secretly a pervert, but all in all, they're just really weird! Yet somehow, they're also oddly cute and endearing. Which means Mizunoe is stuck with them and all the chaos they bring to the table. Get ready for a slice-of-life story that's irresistibly charming, quirky, and a little bit naughty!",
-        "genres": [
-          "Animation",
-          "Comedy"
-        ],
-        "id": "tmdb:283938",
-        "imdb_id": "tt43650242",
-        "kitsu_id": "49877",
-        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/49877/poster_image/4850b0a42082f0554af1dd38bf4e7bfe.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173329Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=bab4f76c70a974ceb02573bbe253e293f408475a75e0b7a3b9ea79fe495950a5",
-        "method": "kitsu-fribb",
-        "poster": "https://image.tmdb.org/t/p/w500/lpjQKu1KfceCLeO8ga71gwJMieg.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2026",
-        "tmdb_id": "283938",
-        "tmdb_rating": 7.7,
-        "tmdb_type": "tv",
-        "tvdb_id": "463051"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Even the Student Council Has Its Holes!",
-      "url": "https://oceanveil.net/"
-    },
     "seed-genshiken-0020997e": {
       "enrichment": {
         "background": "https://image.tmdb.org/t/p/original/h9IQsx7dMMJPDPRIKS44utEQOfP.jpg",
@@ -245,37 +1792,6 @@
       "title": "Genshiken",
       "url": "https://manhwaindex.com/platform/oceanveil"
     },
-    "seed-gonna-be-the-twin-tail-f2ff8190": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/bemtxp3x5P02sw5wmQiYUG6judV.jpg",
-        "confidence": 1.0,
-        "description": "Souji Mitsuka is a first-year high school student who is obsessed with twin-tails. One day, a beautiful girl from a parallel world named Twoearle,  suddenly appeared in front of him and gave him the power to transform into the twin-tailed warrior Tail Red. With the Ultimegil organization attacking the planet, Souji now must fight in order to protect the peace on Earth.",
-        "genres": [
-          "Animation",
-          "Action & Adventure",
-          "Comedy",
-          "Sci-Fi & Fantasy"
-        ],
-        "id": "tmdb:61474",
-        "imdb_id": "tt3985216",
-        "kitsu_id": "8710",
-        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/8710/large.jpg",
-        "method": "kitsu-fribb",
-        "poster": "https://image.tmdb.org/t/p/w500/6ahyvuyYG3t92rAmol9RaBrAnlf.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2014",
-        "tmdb_id": "61474",
-        "tmdb_rating": 7.912,
-        "tmdb_type": "tv",
-        "tvdb_id": "283924"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Gonna be the Twin-Tail!!",
-      "url": "https://manhwaindex.com/platform/oceanveil"
-    },
     "seed-harem-camp-a7cab583": {
       "enrichment": {
         "background": "https://image.tmdb.org/t/p/original/xIioKjaioyNLW38OMugFmn15DI6.jpg",
@@ -299,37 +1815,6 @@
       "poster": "",
       "source": "starter-snapshot",
       "title": "Harem Camp!",
-      "url": "https://oceanveil.net/"
-    },
-    "seed-inuyashiki-ca903369": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/nzhMMfyGBfuAo4GWKfn8SckGGbQ.jpg",
-        "confidence": 1.0,
-        "description": "Aliens replace middle-aged Inuyashiki's body with a combat robot. He uses it to fight high schooler Shishigami, who's using the same power selfishly.",
-        "genres": [
-          "Animation",
-          "Drama",
-          "Sci-Fi & Fantasy",
-          "Action & Adventure"
-        ],
-        "id": "tmdb:73946",
-        "imdb_id": "tt6340502",
-        "kitsu_id": "13096",
-        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/13096/large.jpg",
-        "method": "kitsu-fribb",
-        "poster": "https://image.tmdb.org/t/p/w500/VKhdHvqY3vMeBcZ6UOJanUmeYs.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2017",
-        "tmdb_id": "73946",
-        "tmdb_rating": 8.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "321209"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Inuyashiki",
       "url": "https://oceanveil.net/"
     },
     "seed-kabaneri-of-the-iron-fortress-28c6230a": {
@@ -424,94 +1909,6 @@
       "title": "Love Hina",
       "url": "https://manhwaindex.com/platform/oceanveil"
     },
-    "seed-magical-girl-raising-project-restart-7ff6a680": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/a5ibYt8Ri2w74TR99lbP2aHyFMY.jpg",
-        "confidence": 1.0,
-        "description": "Once again, sixteen Magical Girls have been assembled for a high-stakes challenge. Every three days, their Magical Phone pulls them into an RPG-like simulation where they have to work together to fight enemies, solve puzzles, and earn Magical Candy to advance. A staggering ten billion yen reward awaits them at the end—but only for the players who land the finishing blow. With such a tantalizing prize on the line, it's only a matter of time before the girls turn on each other—and if their hit points drop to zero, a game over will be the least of their worries...",
-        "genres": [
-          "Animation",
-          "Drama"
-        ],
-        "id": "tmdb:337277",
-        "imdb_id": "tt39240299",
-        "kitsu_id": "50338",
-        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50338/poster_image/487a04862ba11ee73f7445a3c8d60ac2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173327Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=84f662050c26de905c4b660b34bea69aa52062e01196eb0b436f4171662d266a",
-        "method": "tmdb-title-search",
-        "poster": "https://image.tmdb.org/t/p/w500/s7WJ5gQSLwk5vVxwhzJDx94mMf6.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2026",
-        "tmdb_id": "337277",
-        "tmdb_rating": 0.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "457780"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "MAGICAL GIRL RAISING PROJECT restart",
-      "url": "https://oceanveil.net/"
-    },
-    "seed-mononoke-d89a7820": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/1K0xW8RtPzACZ2Tu42H9R3OlGEw.jpg",
-        "confidence": 1.0,
-        "description": "The Medicine Seller is a deadly and mysterious master of the occult who travels across feudal Japan in search of malevolent spirits called mononoke to slay. When he locates one of these spirits, he cannot simply kill it; he must first learn its Form, its Truth, and its Reason in order to wield the mighty Exorcism Sword and fight against it. He must begin his strange exorcisms with intense psychological analysis and careful investigative work—an extremely dangerous step, as he must first confront and learn about the mononoke before he even has the means to defeat it.",
-        "genres": [
-          "Animation",
-          "Mystery",
-          "Sci-Fi & Fantasy"
-        ],
-        "id": "tmdb:16660",
-        "imdb_id": "tt1992935",
-        "kitsu_id": "2035",
-        "kitsu_poster": "https://media.kitsu.app/anime/poster_images/2035/large.jpg",
-        "method": "kitsu-fribb",
-        "poster": "https://image.tmdb.org/t/p/w500/r3S04UDFVaDRC6fOSjLfvrDhpvd.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2007",
-        "tmdb_id": "16660",
-        "tmdb_rating": 8.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "80470"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Mononoke",
-      "url": "https://manhwaindex.com/platform/oceanveil"
-    },
-    "seed-my-girlfriend-s-friend-e16f6eae": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/7CSqPaizCugNAznzmUUVQKbj6KO.jpg",
-        "confidence": 1.0,
-        "description": "For the first time in my life, I have a girlfriend. But her friend tempts me with a body that's so seductive... What would you do if your girlfriend's friend came on to you like this?",
-        "genres": [
-          "Animation",
-          "Drama"
-        ],
-        "id": "tmdb:336654",
-        "imdb_id": "tt43650454",
-        "kitsu_id": "50752",
-        "kitsu_poster": "https://kitsu-production-media.s3.us-west-002.backblazeb2.com/anime/50752/poster_image/73f0d499dd508338b8474461a090999a.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=002d6013655cdc00000000003%2F20261012%2Fus-west-002%2Fs3%2Faws4_request&X-Amz-Date=20261012T173328Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=0cf84938de55ca968f780040afa5994d3975d1df63153d9945bff8a326e6ee3a",
-        "method": "kitsu-fribb",
-        "poster": "https://image.tmdb.org/t/p/w500/3DN0UnAUrLaY382mFdbv1wrVQNC.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2026",
-        "tmdb_id": "336654",
-        "tmdb_rating": 6.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "477658"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "My Girlfriend's Friend",
-      "url": "https://oceanveil.net/"
-    },
     "seed-negima-2e2ea52a": {
       "enrichment": {
         "background": "https://image.tmdb.org/t/p/original/vdoJh2xCQVEjbmb8Q3NwYFKFDr1.jpg",
@@ -541,61 +1938,6 @@
       "source": "starter-snapshot",
       "title": "Negima!",
       "url": "https://manhwaindex.com/platform/oceanveil"
-    },
-    "seed-now-that-i-can-control-reality-with-a-mouse-cursor-i-m-gonna-e1300696": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/2YCsvsdWbbT9HT2EK4024JRSF5f.jpg",
-        "confidence": 1.0,
-        "description": "One day during class, Takumi— an otaku — notices his mouse cursor has sprung out of the screen.\n\nPanicked, he asks his childhood friend Mone, sitting next to him, to take a look, only to be brushed off...\n\nOnce Takumi realizes he could actually control it himself, he uses the mouse cursor— visible only to him— to slip it in between Mone's clothes and starts clicking away...\n\nHere's Japan’s (probably) first new genre of romcom, \"Clicking Away at a Gyaru Who's Mean to Otakus with a Mouse Cursor\"!",
-        "genres": [
-          "Animation"
-        ],
-        "id": "tmdb:334779",
-        "kitsu_id": "51002",
-        "kitsu_poster": "https://media.kitsu.app/anime/51002/poster_image/large-df51472f8ddcb0040964d8f5a2d109b6.jpeg",
-        "method": "tmdb-title-search",
-        "poster": "https://image.tmdb.org/t/p/w500/y3gE67auOFwfS4zLTFKu4VZvb1a.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2026",
-        "tmdb_id": "334779",
-        "tmdb_rating": 9.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "473125"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Now That I Can Control Reality With A Mouse Cursor, I'm Gonna Click Away On The Girls!",
-      "url": "https://oceanveil.net/"
-    },
-    "seed-nyarko-san-another-crawling-chaos-w-cebc38b4": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/87bpdbzhwrR3HmPVyVNeMlRVDn0.jpg",
-        "confidence": 0.971,
-        "description": "Mahiro Yasaka is just an ordinary high school student, until one day he is suddenly attacked by a dangerous monster. Just when everything seems to be lost, he is saved by a strange girl named Nyaruko, who claims to be the shape-shifting deity Nyarlathotep from horror author H. P. Lovecraft's Cthulhu Mythos.",
-        "genres": [
-          "Animation",
-          "Comedy",
-          "Sci-Fi & Fantasy"
-        ],
-        "id": "tmdb:45254",
-        "imdb_id": "tt2564106",
-        "method": "tmdb-title-search",
-        "poster": "https://image.tmdb.org/t/p/w500/37tfOPuIout9BJbyuJfGIjy6n0n.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2012",
-        "tmdb_id": "45254",
-        "tmdb_rating": 7.3,
-        "tmdb_type": "tv",
-        "tvdb_id": "257521"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Nyarko-san Another Crawling Chaos W",
-      "url": "https://oceanveil.net/"
     },
     "seed-oreimo-f32168c9": {
       "enrichment": {
@@ -656,36 +1998,6 @@
       "source": "starter-snapshot",
       "title": "PandoraHearts",
       "url": "https://manhwaindex.com/platform/oceanveil"
-    },
-    "seed-persona4-the-animation-ba564d71": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/aPQ1ul1PLbYsC0VjcIOaofH7AZ2.jpg",
-        "confidence": 0.978,
-        "description": "When Yu Narukami moves to the rural country town of Inaba to live with his uncle while his parents are away on business, he's expecting a lot more peace and quiet than he's been used to in the big city. Instead, the peace has been shattered as a rash of mysterious murders and kidnappings sweep the countryside. With the police stymied, Yu finds himself joining with a group of seven other teenagers in a desperate bid to solve the mystery. A mystery that is somehow connected to both the local weather patterns and a strange TV world which Yu, his friends and the enigmatic killer can all enter.",
-        "genres": [
-          "Animation",
-          "Sci-Fi & Fantasy",
-          "Action & Adventure",
-          "Mystery",
-          "Crime"
-        ],
-        "id": "tmdb:46388",
-        "imdb_id": "tt2387612",
-        "method": "tmdb-title-search",
-        "poster": "https://image.tmdb.org/t/p/w500/pNqWrcUbJgBqiefyTGxRl0NQ9NK.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2011",
-        "tmdb_id": "46388",
-        "tmdb_rating": 7.5,
-        "tmdb_type": "tv",
-        "tvdb_id": "252232"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "Persona4 the ANIMATION",
-      "url": "https://oceanveil.net/"
     },
     "seed-punch-line-f3d59aea": {
       "enrichment": {
@@ -816,33 +2128,6 @@
       "source": "starter-snapshot",
       "title": "The Great Passage",
       "url": "https://manhwaindex.com/platform/oceanveil"
-    },
-    "seed-the-lonely-snow-widow-and-the-cursed-ring-7577ea3f": {
-      "enrichment": {
-        "background": "https://image.tmdb.org/t/p/original/fo8rXXfSluWR6vHTslFiT10uSp3.jpg",
-        "confidence": 1.0,
-        "description": "Satoru Takahashi, a young man who inherits his late father's apartment complex in a modern world where humans and yokai (supernatural creatures) coexist.",
-        "genres": [
-          "Animation",
-          "Comedy"
-        ],
-        "id": "tmdb:334504",
-        "imdb_id": "tt45831796",
-        "method": "tmdb-title-search",
-        "poster": "https://image.tmdb.org/t/p/w500/831mR49mAXJ3vy3wIMoclyPk8yo.jpg",
-        "refresh_after": "2026-10-19",
-        "releaseInfo": "2026",
-        "tmdb_id": "334504",
-        "tmdb_rating": 0.0,
-        "tmdb_type": "tv",
-        "tvdb_id": "478562"
-      },
-      "first_seen": "2026-10-12",
-      "last_seen": "2026-10-12",
-      "poster": "",
-      "source": "starter-snapshot",
-      "title": "The Lonely Snow Widow and the Cursed Ring",
-      "url": "https://oceanveil.net/"
     },
     "seed-the-perfect-insider-c5860414": {
       "enrichment": {
