@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Publish enriched OceanVeil anime catalogs with playback-friendly TMDB/IMDb IDs.
+"""Publish an honest OceanVeil availability catalog.
 
-Optional direct streams can be supplied as explicit verified links in streams.json.
-Live discovery remains best-effort; no extraction of protected streams.
+Only verified canonical media IDs and working metadata artwork reach the home catalog.
+An offline fallback snapshot is explicitly labeled; live discovery is audited separately.
+No playback or authenticated OceanVeil URLs are fabricated.
 """
 from __future__ import annotations
 
@@ -52,6 +53,7 @@ def pages_base_url() -> str:
 class GentleFetcher:
     def __init__(self):
         self.events = []
+        self.probes = []
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": UA, "Accept": "text/html,application/xml;q=0.9,*/*;q=0.7"})
         self.robots: dict[str, RobotFileParser | None] = {}
@@ -74,6 +76,21 @@ class GentleFetcher:
         rp = self.robots[host]
         return rp is None or rp.can_fetch(UA, url)
 
+    def capture_probe(self, html: str, url: str, mode: str) -> None:
+        """Public DOM diagnostics, without cookies, request headers, or page HTML."""
+        if len(self.probes) >= 9:
+            return
+        soup = BeautifulSoup(html, "html.parser")
+        links = [urljoin(url, a.get("href", "")) for a in soup.select("a[href]")]
+        candidates = [a for a in links if ocean_id(a)]
+        img_alts = [i.get("alt", "")[:90] for i in soup.select("img[alt]") if i.get("alt")]
+        headers = [" ".join(x.get_text(" ", strip=True).split())[:100] for x in soup.select("h1,h2,h3")]
+        self.probes.append({"url": url, "mode": mode, "html_characters": len(html),
+                            "title_links": len(candidates), "total_links": len(links),
+                            "example_title_links": candidates[:3], "headings": headers[:12],
+                            "image_alt_examples": img_alts[:15],
+                            "document_title": (soup.title.get_text(" ", strip=True) if soup.title else "")[:120]})
+
     def get(self, url: str) -> str | None:
         if not self.allowed(url):
             print("Blocked by robots.txt:", url)
@@ -89,6 +106,8 @@ class GentleFetcher:
             r = self.session.get(url, timeout=PAGE_TIMEOUT)
             r.raise_for_status()
             self.events.append({"url": url, "result": "ok"})
+            if p.netloc.endswith("oceanveil.net") and len(self.probes) < 6:
+                self.capture_probe(r.text, url, "http")
             if len(r.content) > 5_000_000:
                 print("Skipping overly large page", url)
                 return None
@@ -112,7 +131,7 @@ def title_ok(value: str | None) -> bool:
     value = " ".join(value.split())
     if not (2 < len(value) < 250):
         return False
-    generic = {"welcome", "image", "all titles", "watch now", "watch", "anime", "more", "details", "read more", "newly streaming", "oceanveil"}
+    generic = {"welcome", "image", "all titles", "watch now", "watch", "anime", "more", "details", "read more", "newly streaming", "special pick up", "why choose oceanveil?", "start with a free account!", "faq", "oceanveil", "niche anime", "unedited titles"}
     return value.lower() not in generic and "oceanveil watch anime" not in value.lower() and "dive for anime" not in value.lower()
 
 
@@ -140,10 +159,10 @@ def details_from_official(html: str, url: str) -> tuple[str, str]:
         if name:
             break
     if not name:
-        for css in ["main h1", "main h2", "h1"]:
+        for css in ["article h1", "article h2", "main h1", "main h2", "main h3", "h1"]:
             node = soup.select_one(css)
             name = clean_title(node.get_text(" ", strip=True) if node else "")
-            if name and not re.search(r"^(niche anime|unedited titles)", name, flags=re.I):
+            if name and not re.search(r"^(niche anime|unedited titles|newly streaming|special pick up|why choose oceanveil)", name, flags=re.I):
                 break
             name = ""
     poster = ""
@@ -275,6 +294,7 @@ def rendered_official_cards(fetcher: GentleFetcher) -> dict[str, dict]:
                     for _ in range(4):
                         page.mouse.wheel(0, 900)
                         page.wait_for_timeout(400)
+                    fetcher.capture_probe(page.content(), url, "chromium") if hasattr(fetcher, "capture_probe") else None
                     found = official_cards(page.content(), url)
                     print("Browser-rendered cards", url, len(found))
                     records.update(found)
@@ -300,6 +320,21 @@ def slug_key(title: str) -> str:
 
 def title_key(title: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode("ascii").lower())
+
+
+def image_is_trusted(url: str) -> bool:
+    """Prefer authoritative image CDNs; never use OceanVeil's unreliable artwork URLs."""
+    try:
+        p = urlparse(str(url))
+        host = (p.hostname or "").lower()
+        return p.scheme == "https" and host in {"image.tmdb.org", "media.kitsu.io"} and bool(p.path.strip("/"))
+    except (ValueError, TypeError):
+        return False
+
+
+def playable_id(item_id: str) -> bool:
+    """Canonical IDs accepted by common Stremio stream/metadata addons."""
+    return bool(re.fullmatch(r"tmdb:\d+|tt\d+", item_id))
 
 
 def read_seed() -> dict[str, dict]:
@@ -439,7 +474,7 @@ def build() -> None:
             valid.append(item)
         if valid:
             safe_streams[video_id] = valid
-    resources = ['catalog', {"name": "meta", "types": ['series', 'movie'], "idPrefixes": ['oceanveil:', 'kitsu:']}]
+    resources = ['catalog']  # Other installed addons provide metadata and video streams for canonical IDs.
     if safe_streams:
         # Only advertised if direct/official sources have been configured.
         # Ordinary matched TMDB/IMDb entries are still playable via other addons.
@@ -451,9 +486,9 @@ def build() -> None:
 
     manifest = {
         "id": "community.oceanveil.auto.catalog",
-        "version": "1.4.0",
+        "version": "1.5.0",
         "name": "OceanVeil Anime",
-        "description": "OceanVeil anime discovery catalog, compatible TMDB/IMDb/Kitsu IDs, TVDB/TMDB and MDBList enrichment. Playback uses your installed stream addons; optional direct links supported.",
+        "description": "OceanVeil anime catalog using TMDB/IMDb IDs and reliable artwork. Playback is supplied by installed stream addons, not OceanVeil subscription video extraction.",
         "resources": resources,
         "types": ['series', 'movie'],
         "catalogs": [
@@ -468,28 +503,41 @@ def build() -> None:
     identifiers = set()
     match_counts = {'tmdb': 0, 'imdb': 0, 'kitsu': 0, 'oceanveil': 0}
     enrich_counts = {'tmdb_metadata': 0, 'tvdb_metadata': 0, 'mdb_ratings': 0}
+    exclusions = []
+    snapshot_published = 0
+    official_published = 0
     for oid, data in sorted(titles.items(), key=lambda kv: (kv[1].get('last_seen', ''), kv[1].get('first_seen', ''), kv[1]['title']), reverse=True):
         e = data.get('enrichment') or {}
-        item_id = e.get('id') or f'oceanveil:{oid}'
-        # Only TMDB movie IDs are allowed to appear in movie catalogs.
-        typ = 'movie' if item_id.startswith('tmdb:') and e.get('tmdb_type') == 'movie' else 'series'
+        item_id = e.get('id') or ''
+        # NO fabricated placeholder or OceanVeil image that breaks on TV/mobile.
+        art = e.get('poster') or e.get('kitsu_poster') or ''
+        art = art if image_is_trusted(art) else ''
+        reasons = []
+        if not playable_id(item_id):
+            reasons.append('unmatched_tmdb_imdb_id')
+        if not art:
+            reasons.append('missing_trusted_poster')
+        if reasons:
+            exclusions.append({'title': data['title'], 'source': data.get('source', 'unknown'),
+                               'reason': ', '.join(reasons)})
+            continue
+        # One canonical show per catalog entry; dubs/variants can reference same ID.
         if item_id in identifiers:
             continue
         identifiers.add(item_id)
-        match_counts['tmdb' if item_id.startswith('tmdb:') else 'imdb' if item_id.startswith('tt') else 'kitsu' if item_id.startswith('kitsu:') else 'oceanveil'] += 1
+        typ = 'movie' if e.get('tmdb_type') == 'movie' and item_id.startswith('tmdb:') else 'series'
+        match_counts['tmdb' if item_id.startswith('tmdb:') else 'imdb'] += 1
         enrich_counts['tmdb_metadata'] += int(bool(e.get('description') and e.get('tmdb_id')))
         enrich_counts['tvdb_metadata'] += int(bool(e.get('tvdb_id')))
         enrich_counts['mdb_ratings'] += int(bool(e.get('ratings')))
-        fallback = data.get('poster') or f'{base_url}/placeholder.png'
-        meta_preview = preview_metadata(data['title'], e, fallback)
-        preview = {'id': item_id, 'type': typ, **meta_preview}
+        preview = {'id': item_id, 'type': typ, **preview_metadata(data['title'], e, art)}
+        preview['poster'] = art
+        # Never advertise old snapshot as live availability.
+        if data.get('source') == 'starter-snapshot':
+            snapshot_published += 1
+        else:
+            official_published += 1
         grouped[typ].append(preview)
-        if item_id.startswith(('oceanveil:', 'kitsu:')):
-            source_link = data.get('url') or OFFICIAL
-            full = {**preview, 'website': source_link, 'videos': []}
-            if ocean_id(source_link):
-                full['links'] = [{'name': 'OceanVeil', 'category': 'watch', 'url': source_link}]
-            dump_json(OUT / 'meta' / typ / f'{item_id}.json', {'meta': full})
 
     # Also produce the exact /skip=0.json route expected by some clients.
     for typ, catid in [('series', 'oceanveil-anime'), ('movie', 'oceanveil-movies')]:
@@ -506,10 +554,20 @@ def build() -> None:
         normalized_id = video_id.removeprefix('movie:')
         dump_json(OUT / 'stream' / kind / f'{normalized_id}.json', {'streams': streams})
     listing = grouped['series'] + grouped['movie']
+    if not listing:
+        print("::warning::The published catalog is EMPTY after identity/artwork validation. Check TMDB_API_KEY, enrichment and status.json exclusions.")
     live_count = sum(r.get("source") == "live-discovery" for r in titles.values())
     newly_found = sum(oid not in saved for oid in fresh_usable)
     status = {
         "known_title_count": len(listing),
+        "raw_known_title_count": len(titles),
+        "ready_for_nuvio": bool(listing),
+        "excluded_title_count": len(exclusions),
+        "excluded_titles": exclusions[:200],
+        "published_historical_snapshot_count": snapshot_published,
+        "published_live_source_count": official_published,
+        "content_validation": "Only TMDB/IMDb identifiers + trusted TMDB/Kitsu posters. Snapshot is historical, not live-verified.",
+        "source_debug": "source-debug.json",
         "starter_snapshot_count": len(seed),
         "stored_live_title_count": live_count,
         "live_titles_extracted_this_run": len(fresh_usable),
@@ -524,12 +582,14 @@ def build() -> None:
         "stream_endpoints": len(safe_streams),
         "metadata_apis_configured": {"tmdb": bool(enrichment.tmdb_key), "tvdb": bool(enrichment.tvdb_key), "mdblist": bool(enrichment.mdb_key)},
         "id_match_sources": enrichment.events,
-        "unmatched_titles": [x['name'] for x in listing if x['id'].startswith('oceanveil:')][:50],
+        "unmatched_titles": [x["title"] for x in exclusions if "unmatched" in x["reason"]][:50],
         "notes": ("Live sources provided titles this run." if fresh_usable else
-                  "No live titles extracted this run. The seeded/saved list was published, "
-                  "but discovery of future additions is not verified while source access is blocked."),
+                  "No live OceanVeil titles extracted. Listed candidates, if any, come from prior source snapshots and are not verified current availability."),
     }
     dump_json(OUT / "status.json", status)
+    dump_json(OUT / "source-debug.json", {"public_dom_probes": getattr(fetcher, "probes", []),
+                                          "source_checks": getattr(fetcher, "events", [])[:30],
+                                          "note": "No authentication headers or secrets; inspect titles/anchors to improve source selectors."})
     # The homepage includes direct test links, so a user can isolate publishing
     # faults before troubleshooting the Nuvio application or profile settings.
     page = ("<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' "
@@ -537,16 +597,16 @@ def build() -> None:
             "<style>body{font:16px/1.6 system-ui;max-width:740px;margin:8vh auto;padding:20px;"
             "background:#101823;color:white}a{color:#9dc9ff}code{overflow-wrap:anywhere}"
             "li{padding:4px 0}</style>"
-            f"<h1>OceanVeil Auto Catalog</h1><p>{len(listing)} catalog titles.</p>"
+            f"<h1>OceanVeil Auto Catalog</h1><p>{len(listing)} metadata-matched titles with external artwork.</p>"
             "<ul><li><a href='manifest.json'>Addon manifest</a></li>"
             "<li><a href='catalog/series/oceanveil-anime.json'>Raw catalog JSON</a></li>"
             "<li><a href='catalog-preview.html'>Visual catalog preview</a></li>"
-            "<li><a href='status.json'>Update status</a></li></ul>"
+            "<li><a href='status.json'>Update status</a></li><li><a href='source-debug.json'>Source diagnostics</a></li></ul>"
             f"<p>Install URL: <code>{base_url}/manifest.json</code></p>"
             "<p>If this site's preview works but the row is missing in Nuvio, reinstall "
             "the addon into the right Nuvio profile and enable its home catalog.</p>"
-            "<p>Uses standard TMDB/IMDb/Kitsu IDs for compatibility with your installed "
-            "metadata and stream addons. Optional stream endpoints need supplied sources. "
+            "<p>Uses only matched TMDB/IMDb IDs for compatibility with your installed "
+            "metadata and stream addons. OceanVeil subscriber playback is not included. "
             "Live discovery may remain unavailable.</p></html>")
     (OUT / "index.html").write_text(page, encoding="utf8")
     preview = r"""<!doctype html>
@@ -582,7 +642,7 @@ article{background:#16263b;border-radius:12px;padding:10px;min-height:265px}img{
 </script></body></html>"""
     (OUT / "catalog-preview.html").write_text(preview, encoding="utf8")
     if not fresh_usable:
-        print("::warning::No live titles extracted. Publishing starter/saved snapshot; discovery of new releases is NOT currently verified.")
+        print("::warning::No live titles extracted. Publication uses historical candidates only; this does not confirm current OceanVeil availability.")
     print(f"Generated {len(listing)} titles; seeded {len(seed)}, saved live {live_count}, fetched this run {len(fresh_usable)}. Base: {base_url}")
 
 

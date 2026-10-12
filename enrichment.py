@@ -23,6 +23,10 @@ MDB = "https://api.mdblist.com"
 KITSU = "https://kitsu.io/api/edge/anime"
 
 
+def lookup_title(value):
+    return re.sub(r"^\s*(?:\[(?:dub|sub)\]|\((?:dub|sub)\))\s*", "", str(value or ""), flags=re.I).strip()
+
+
 def norm(value):
     text = unicodedata.normalize('NFKD', str(value or '')).encode('ascii', 'ignore').decode().casefold()
     return re.sub(r'[^a-z0-9]+', ' ', text).strip()
@@ -127,7 +131,7 @@ class Enricher:
                 candidates.append((score, item))
         candidates.sort(key=lambda it: it[0], reverse=True)
         selected = None
-        if candidates and (len(candidates) == 1 or candidates[0][0] - candidates[1][0] >= .06 or candidates[0][0] >= .985):
+        if candidates and (len(candidates) == 1 or candidates[0][0] - candidates[1][0] >= .06):
             selected = candidates[0][1]
         self._kitsu_cache[name] = selected
         return selected
@@ -151,14 +155,14 @@ class Enricher:
             return None
         candidates = []
         for kind in ('tv', 'movie'):
-            result = self.tmdb_request(f'/search/{kind}', {'query': name, 'include_adult': 'false'})
+            result = self.tmdb_request(f'/search/{kind}', {'query': name, 'include_adult': 'true'})
             for item in (result or {}).get('results', [])[:10]:
                 label = item.get('name') or item.get('title') or ''
                 score = match_score(name, label)
                 if score >= .89:
                     candidates.append((score, kind, item))
         candidates.sort(reverse=True, key=lambda x: x[0])
-        if not candidates or (len(candidates) > 1 and candidates[0][0] - candidates[1][0] < .065 and candidates[0][0] < .99):
+        if not candidates or (len(candidates) > 1 and candidates[0][0] - candidates[1][0] < .065):
             return None
         score, kind, item = candidates[0]
         return {'tmdb_type': kind, 'tmdb_id': str(item['id']), 'confidence': round(score, 3), 'method': 'tmdb-title-search'}
@@ -204,7 +208,7 @@ class Enricher:
             if score >= .90 and c.get('tvdb_id') or (score >= .90 and c.get('id')):
                 choices.append((score, str(c.get('tvdb_id') or c.get('id'))))
         choices.sort(reverse=True)
-        if choices and (len(choices) == 1 or choices[0][0] - choices[1][0] >= .06 or choices[0][0] >= .99):
+        if choices and (len(choices) == 1 or choices[0][0] - choices[1][0] >= .06):
             return {'tvdb_id': choices[0][1], 'confidence': round(choices[0][0], 3), 'method': 'tvdb-title-search'}
         return None
 
@@ -270,6 +274,7 @@ class Enricher:
         until = prior.get('refresh_after', '')
         if prior.get('id') and until >= date.today().isoformat():
             return prior
+        title = lookup_title(title)
         self.load_fribb()
         info = {k: v for k, v in prior.items() if k not in ('refresh_after',)}
         resolved = {}

@@ -37,7 +37,7 @@ class FakeEnricher:
     def enrich(self, title, previous=None):
         if title == 'Angel Beats!':
             return {'id': 'tmdb:1234', 'tmdb_id': '1234', 'tmdb_type': 'tv', 'tvdb_id': '5678',
-                    'ratings': {'imdb': 8.9}, 'poster': 'https://cdn.example/poster.jpg',
+                    'ratings': {'imdb': 8.9}, 'poster': 'https://image.tmdb.org/t/p/w500/poster.jpg',
                     'description': 'Anime description', 'refresh_after': '2099-01-01'}
         if title == 'New from sitemap':
             return {'id': 'tmdb:9999', 'tmdb_id': '9999', 'tmdb_type': 'movie',
@@ -66,14 +66,14 @@ class Tests(unittest.TestCase):
                 self.assertEqual(manifest['catalogs'][0]['extra'], [])
                 series = json.loads((pub/'catalog/series/oceanveil-anime.json').read_text())['metas']
                 movies = json.loads((pub/'catalog/movie/oceanveil-movies.json').read_text())['metas']
-                self.assertEqual(len(series), 2)
-                self.assertEqual(len(movies), 1)
+                self.assertEqual(len(series), 1)
+                self.assertEqual(len(movies), 0)
                 self.assertIn('tmdb:1234', [m['id'] for m in series])
-                self.assertIn('tmdb:9999', [m['id'] for m in movies])
+                self.assertNotIn('tmdb:9999', [m['id'] for m in movies])  # no trusted poster, not listed
                 entry = next(m for m in series if m['id'] == 'tmdb:1234')
                 self.assertEqual(entry['imdbRating'], '8.9')
-                self.assertEqual(entry['poster'], 'https://cdn.example/poster.jpg')
-                self.assertEqual(json.loads((pub/'status.json').read_text())['identifier_counts']['tmdb'], 2)
+                self.assertEqual(entry['poster'], 'https://image.tmdb.org/t/p/w500/poster.jpg')
+                self.assertEqual(json.loads((pub/'status.json').read_text())['identifier_counts']['tmdb'], 1)
                 self.assertEqual(json.loads((pub/'status.json').read_text())['enrichment_counts']['mdb_ratings'], 1)
                 # Rerun with source inaccessible, no loss of saved standard IDs.
                 with patch.object(generator, 'GentleFetcher', type('Empty', (), {'events': [], 'get': lambda self, url: None})):
@@ -100,10 +100,27 @@ class Tests(unittest.TestCase):
                 stream = json.loads((pub/'stream/series/tmdb:1234:1:1.json').read_text())
                 self.assertEqual(stream['streams'][0]['url'], 'https://media.example/ep.m3u8')
                 status = json.loads((pub/'status.json').read_text())
-                self.assertEqual(status['known_title_count'], 34)
+                self.assertEqual(status['known_title_count'], 1)  # one mock-matched title; no placeholders
                 self.assertEqual(status['live_titles_extracted_this_run'], 0)
+                self.assertEqual(status['raw_known_title_count'], 34)
+                self.assertEqual(status['excluded_title_count'], 33)
+                self.assertTrue((pub/'source-debug.json').exists())
+                self.assertTrue(all(x['id'].startswith(('tmdb:', 'tt')) for x in json.loads((pub/'catalog/series/oceanveil-anime.json').read_text())['metas']))
                 self.assertTrue((pub/'catalog/series/oceanveil-anime/skip=0.json').exists())
                 self.assertEqual(status['addon_manifest_url'], 'https://oceanveil-auto-catalog.github.io/manifest.json')
+                self.assertEqual(manifest['version'], '1.5.0')
+
+    def test_catalog_id_and_artwork_gate(self):
+        self.assertTrue(generator.playable_id('tmdb:123'))
+        self.assertTrue(generator.playable_id('tt1234567'))
+        self.assertFalse(generator.playable_id('oceanveil:seed-123'))
+        self.assertFalse(generator.playable_id('kitsu:123'))
+        self.assertTrue(generator.image_is_trusted('https://image.tmdb.org/t/p/w500/abc.jpg'))
+        self.assertFalse(generator.image_is_trusted('https://oceanveil.net/img/broken.jpg'))
+        self.assertFalse(generator.image_is_trusted('https://cdn.example.org/unknown.jpg'))
+        self.assertEqual(enrichment.lookup_title('[Dub] Angel Beats!'), 'Angel Beats!')
+        self.assertEqual(enrichment.lookup_title('(Sub) Angel Beats!'), 'Angel Beats!')
+        self.assertFalse(generator.title_ok('Newly Streaming'))
 
     def test_strict_title_matching(self):
         self.assertEqual(enrichment.match_score('Angel Beats!', 'Angel Beats!'), 1)
