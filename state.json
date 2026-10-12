@@ -544,11 +544,23 @@
     },
     "seed-now-that-i-can-control-reality-with-a-mouse-cursor-i-m-gonna-e1300696": {
       "enrichment": {
+        "background": "https://image.tmdb.org/t/p/original/2YCsvsdWbbT9HT2EK4024JRSF5f.jpg",
         "confidence": 1.0,
+        "description": "One day during class, Takumi— an otaku — notices his mouse cursor has sprung out of the screen.\n\nPanicked, he asks his childhood friend Mone, sitting next to him, to take a look, only to be brushed off...\n\nOnce Takumi realizes he could actually control it himself, he uses the mouse cursor— visible only to him— to slip it in between Mone's clothes and starts clicking away...\n\nHere's Japan’s (probably) first new genre of romcom, \"Clicking Away at a Gyaru Who's Mean to Otakus with a Mouse Cursor\"!",
+        "genres": [
+          "Animation"
+        ],
+        "id": "tmdb:334779",
         "kitsu_id": "51002",
         "kitsu_poster": "https://media.kitsu.app/anime/51002/poster_image/large-df51472f8ddcb0040964d8f5a2d109b6.jpeg",
-        "method": "kitsu-fribb",
-        "refresh_after": "2026-10-13"
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/y3gE67auOFwfS4zLTFKu4VZvb1a.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334779",
+        "tmdb_rating": 9.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "473125"
       },
       "first_seen": "2026-10-12",
       "last_seen": "2026-10-12",
@@ -807,7 +819,23 @@
     },
     "seed-the-lonely-snow-widow-and-the-cursed-ring-7577ea3f": {
       "enrichment": {
-        "refresh_after": "2026-10-13"
+        "background": "https://image.tmdb.org/t/p/original/fo8rXXfSluWR6vHTslFiT10uSp3.jpg",
+        "confidence": 1.0,
+        "description": "Satoru Takahashi, a young man who inherits his late father's apartment complex in a modern world where humans and yokai (supernatural creatures) coexist.",
+        "genres": [
+          "Animation",
+          "Comedy"
+        ],
+        "id": "tmdb:334504",
+        "imdb_id": "tt45831796",
+        "method": "tmdb-title-search",
+        "poster": "https://image.tmdb.org/t/p/w500/831mR49mAXJ3vy3wIMoclyPk8yo.jpg",
+        "refresh_after": "2026-10-19",
+        "releaseInfo": "2026",
+        "tmdb_id": "334504",
+        "tmdb_rating": 0.0,
+        "tmdb_type": "tv",
+        "tvdb_id": "478562"
       },
       "first_seen": "2026-10-12",
       "last_seen": "2026-10-12",
